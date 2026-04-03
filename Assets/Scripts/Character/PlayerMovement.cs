@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerMovement : CharacterMovement
@@ -5,7 +6,12 @@ public class PlayerMovement : CharacterMovement
     private PlayerRotation _playerRotation;
 
     [SerializeField]
-    private float _speedModifier = 0.01f;
+    private float _maxMoveSpeed = 7f;
+    [SerializeField]
+    private AnimationCurve _maxAccelerationByCurrentSpeed;
+    [SerializeField]
+    private float _movementThreshold = 0.5f;
+    private float _currentSpeed;
 
     [SerializeField]
     private GameObject _cameraObject;
@@ -28,11 +34,35 @@ public class PlayerMovement : CharacterMovement
 
     public void Move(Vector2 input, CharacterStates currentState)
     {
-        Vector2 movement = ConvertInputToDirection(input) * _speedModifier;
+        Vector2 movement = Vector2.zero;
+        float speedModifier = 0;
 
-        transform.position = ConvertDirectionToPosition(movement);
+        if (input.magnitude > _movementThreshold)
+        {
+            movement = ConvertInputToDirection(input);
+            speedModifier = GetMovementSpeed(movement);
+        }
+        else
+        {
+            _currentSpeed = 0;
+        }
+
+        MoveCharacter(movement, speedModifier);
         CheckCharacterRotation(movement, currentState);
         AnimateMovement(movement);
+    }
+
+    private void MoveCharacter(Vector2 movement, float speedModifier)
+    {
+        transform.position = ConvertMovementToPosition(movement * speedModifier);
+    }
+
+    private float GetMovementSpeed(Vector2 movement)
+    {
+        float acceleration = _maxAccelerationByCurrentSpeed.Evaluate(_currentSpeed);
+        _currentSpeed = Mathf.Clamp((acceleration + _currentSpeed) * movement.magnitude, 0, _maxMoveSpeed);
+
+        return _currentSpeed * Time.deltaTime;
     }
 
     #region Movement - Calculate Position
@@ -43,7 +73,7 @@ public class PlayerMovement : CharacterMovement
         return input.Rotate(-direction);
     }
 
-    private Vector3 ConvertDirectionToPosition(Vector2 movement)
+    private Vector3 ConvertMovementToPosition(Vector2 movement)
     {
         Vector3 newPos = transform.position;
         newPos.x += movement.x;
@@ -55,12 +85,13 @@ public class PlayerMovement : CharacterMovement
 
     #region Movement - Rotation
 
-    private void CheckCharacterRotation(Vector2 movement, CharacterStates currentState)
+    private void CheckCharacterRotation(Vector3 movement, CharacterStates currentState)
     {
         switch (currentState)
         {
             case CharacterStates.NonCombat:
-                _playerRotation.RotateBodyFromMovment(movement);
+                if (movement.magnitude > 0)
+                    _playerRotation.RotateBodyFromMovement(movement);
                 break;
             case CharacterStates.Combat:
                 break;
@@ -77,7 +108,9 @@ public class PlayerMovement : CharacterMovement
 
     private void AnimateMovement(Vector2 movement)
     {
-        float animSpeed = _speedToAnimationCurve.Evaluate(movement.magnitude);
+        Vector2 moveSpeed = movement * _currentSpeed;
+
+        float animSpeed = _speedToAnimationCurve.Evaluate(moveSpeed.magnitude);
         _animController.SetFloat("MoveSpeed", animSpeed);
     }
 

@@ -9,13 +9,15 @@ public class PlayerRotation
         _characterBody = characterBody;
     }
 
-    public void RotateBodyFromMovment(Vector2 movement)
+    public void RotateBodyFromMovement(Vector2 direction2)
     {
-        RotateBody(movement);
+        Vector3 direction3 = new(direction2.x, 0, direction2.y);
+
+        RotateBody(Quaternion.LookRotation(direction3));
     }
 
-    private void RotateBody(Vector3 desiredRotation)
+    private void RotateBody(Quaternion desiredRotation)
     {
-        _characterBody.transform.rotation = Quaternion.Euler(desiredRotation);
+        _characterBody.transform.rotation = desiredRotation;
     }
 }
