@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class PlayerMovement : CharacterMovement
@@ -6,11 +5,13 @@ public class PlayerMovement : CharacterMovement
     private PlayerRotation _playerRotation;
 
     [SerializeField]
+    private float _minMoveSpeed = 0.8f;
+    [SerializeField]
     private float _maxMoveSpeed = 7f;
     [SerializeField]
     private AnimationCurve _maxAccelerationByCurrentSpeed;
     [SerializeField]
-    private float _movementThreshold = 0.5f;
+    private float _inputThreshold = 0.25f;
     private float _currentSpeed;
 
     [SerializeField]
@@ -37,7 +38,7 @@ public class PlayerMovement : CharacterMovement
         Vector2 movement = Vector2.zero;
         float speedModifier = 0;
 
-        if (input.magnitude > _movementThreshold)
+        if (input.magnitude > _inputThreshold)
         {
             movement = ConvertInputToDirection(input);
             speedModifier = GetMovementSpeed(movement);
@@ -60,7 +61,7 @@ public class PlayerMovement : CharacterMovement
     private float GetMovementSpeed(Vector2 movement)
     {
         float acceleration = _maxAccelerationByCurrentSpeed.Evaluate(_currentSpeed);
-        _currentSpeed = Mathf.Clamp((acceleration + _currentSpeed) * movement.magnitude, 0, _maxMoveSpeed);
+        _currentSpeed = Mathf.Clamp((acceleration + _currentSpeed) * movement.magnitude, _minMoveSpeed, _maxMoveSpeed);
 
         return _currentSpeed * Time.deltaTime;
     }
