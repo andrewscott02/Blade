@@ -29,16 +29,5 @@ public class PlayerCamera : MonoBehaviour
     }
 
     private float ClampVerticalRotation(float rotation)
-    //{
-    //    if (rotation < _rotationBounds.x && rotation > _rotationBounds.y)
-    //        return rotation;
-
-    //    float xDiff = rotation - _rotationBounds.x;
-    //    float yDiff = rotation - _rotationBounds.y;
-
-    //    if (xDiff > yDiff)
-    //        return yDiff;
-    //    return xDiff;
-    //}
         => Mathf.Clamp(rotation, _rotationBounds.x, _rotationBounds.y);
 }
