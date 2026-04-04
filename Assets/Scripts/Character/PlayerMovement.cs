@@ -24,9 +24,10 @@ public class PlayerMovement : CharacterMovement
     [Header("Animation")]
     [SerializeField]
     private Animator _animController;
-
     [SerializeField]
     private AnimationCurve _speedToAnimationCurve;
+    [SerializeField]
+    private float _animDampen = 0.1f;
 
     private void Awake()
     {
@@ -112,7 +113,8 @@ public class PlayerMovement : CharacterMovement
         Vector2 moveSpeed = movement * _currentSpeed;
 
         float animSpeed = _speedToAnimationCurve.Evaluate(moveSpeed.magnitude);
-        _animController.SetFloat("MoveSpeed", animSpeed);
+
+        _animController.SetFloat("MoveSpeed", animSpeed, _animDampen, Time.deltaTime);
     }
 
     #endregion

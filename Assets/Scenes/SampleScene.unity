@@ -254,7 +254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c509a052deca8240960394254dfb7ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCamera
-  _rotateModifiers: {x: 0.3, y: 0.3}
+  _rotateModifiers: {x: 0.6, y: 0.6}
   _rotationBounds: {x: 0, y: 85}
   _cameraLookTarget: {fileID: 1383355648}
 --- !u!114 &326812490
@@ -269,32 +269,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48db98e3fbfc8de44ba0b00184360a5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  _maxMoveSpeed: 7
+  _minMoveSpeed: 1.2
+  _maxMoveSpeed: 9
   _maxAccelerationByCurrentSpeed:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.8
-      inSlope: -0.08424355
-      outSlope: -0.08424355
+      value: 0.5
+      inSlope: -0.13431403
+      outSlope: -0.13431403
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.08583691
+      outWeight: 0.05865522
     - serializedVersion: 3
       time: 6
-      value: 0.3
-      inSlope: -0.01676226
-      outSlope: -0.01676226
+      value: 0.04
+      inSlope: -0.0053292704
+      outSlope: -0.0053292704
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.11731044
+      inWeight: 0.1216023
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _movementThreshold: 0.25
+  _inputThreshold: 0.25
   _cameraObject: {fileID: 1383355648}
   _characterBody: {fileID: 2091017666}
   _animController: {fileID: 2091017668}
@@ -304,17 +305,17 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0.14285715
-      outSlope: 0.14285715
+      inSlope: 0.11111111
+      outSlope: 0.11111111
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 7
+      time: 9
       value: 1
-      inSlope: 0.14285715
-      outSlope: 0.14285715
+      inSlope: 0.11111111
+      outSlope: 0.11111111
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -322,6 +323,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _animDampen: 0.2
 --- !u!114 &326812491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -730,7 +732,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -948,13 +950,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 681479285}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.000000022749747, y: -0.000000067908616, z: 0.7506293, w: 0.6607236}
-  m_LocalPosition: {x: 0.18, y: 0.141, z: 0.011}
+  m_LocalRotation: {x: 0.00000002420498, y: -0.00000006220398, z: 0.8323667, w: 0.5542253}
+  m_LocalPosition: {x: 0.176, y: 0.179, z: 0.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1041358037}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 97.29}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 112.685}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
