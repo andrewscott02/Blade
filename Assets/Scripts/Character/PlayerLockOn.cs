@@ -16,6 +16,9 @@ public class PlayerLockOn : MonoBehaviour
 
     public LockOnTarget CurrentTarget { get; private set; }
 
+    [SerializeField]
+    private Animator _animController;
+
     public bool TryGetLockOnTarget(out LockOnTarget target)
     {
         LockOnTarget[] targets = GetAllLockOnTargetsInRange().ToArray();
@@ -83,5 +86,11 @@ public class PlayerLockOn : MonoBehaviour
     internal void SetTarget(LockOnTarget target)
     {
         CurrentTarget = target;
+        _animController.SetBool("Combat", true);
+    }
+
+    internal void UnlockTarget()
+    {
+        _animController.SetBool("Combat", false);
     }
 }

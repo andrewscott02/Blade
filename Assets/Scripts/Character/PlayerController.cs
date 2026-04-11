@@ -11,9 +11,12 @@ public class PlayerController : CharacterController
     private PlayerMovement _playerMovement;
     private PlayerCamera _playerCamera;
     private PlayerLockOn _playerLockOn;
+    private WeaponAttach _weaponAttach;
 
     [SerializeField]
     private InputActionReference _moveInput;
+    [SerializeField]
+    private InputActionReference _sprintInput;
     [SerializeField]
     private InputActionReference _cameraInput;
     [SerializeField]
@@ -30,7 +33,14 @@ public class PlayerController : CharacterController
         _playerMovement = GetComponent<PlayerMovement>();
         _playerCamera = GetComponent<PlayerCamera>();
         _playerLockOn = GetComponent<PlayerLockOn>();
+        _weaponAttach = GetComponent<WeaponAttach>();
 
+        _nonCombatCam.Prioritize();
+
+        AssignInputs();
+    }
+    private void Start()
+    {
         _nonCombatCam.Prioritize();
     }
 
@@ -38,8 +48,14 @@ public class PlayerController : CharacterController
     {
         CheckCameraInput();
         CheckMovementInput();
-        CheckLockOnInput();
         RotateCameraToTarget();
+    }
+
+    private void AssignInputs()
+    {
+        _sprintInput.action.performed += CheckSprintInput;
+        _sprintInput.action.canceled += CheckSprintCancelInput;
+        _lockOnInput.action.performed += CheckLockOnInput;
     }
 
     private void CheckCameraInput()
@@ -67,9 +83,19 @@ public class PlayerController : CharacterController
         _playerMovement.Move(inputValue, CurrentState);
     }
 
-    private void CheckLockOnInput()
+    private void CheckSprintInput(InputAction.CallbackContext context)
     {
-        if (_lockOnInput.action.triggered)
+        _playerMovement.SetSprinting(context.action.triggered);
+    }
+
+    private void CheckSprintCancelInput(InputAction.CallbackContext context)
+    {
+        _playerMovement.SetSprinting(context.action.triggered);
+    }
+
+    private void CheckLockOnInput(InputAction.CallbackContext context)
+    {
+        if (context.action.triggered)
         {
             switch (CurrentState)
             {
@@ -91,16 +117,22 @@ public class PlayerController : CharacterController
     {
         if (_playerLockOn.TryGetLockOnTarget(out LockOnTarget target))
         {
-            _playerLockOn.SetTarget(target);
             CurrentState = CharacterStates.Combat;
+
+            _playerMovement.SetSprinting(false);
+            _playerLockOn.SetTarget(target);
             _combatCam.Prioritize();
+            _weaponAttach.SetState(CurrentState);
         }
     }
 
     private void LockOff()
     {
         CurrentState = CharacterStates.NonCombat;
+
+        _playerLockOn.UnlockTarget();
         _nonCombatCam.Prioritize();
+        _weaponAttach.SetState(CurrentState);
     }
 
     private void RotateCameraToTarget()
@@ -111,6 +143,7 @@ public class PlayerController : CharacterController
                 throw new System.Exception("Current target cannot be null in combat mode");
 
             _playerCamera.LookAtTarget(_playerLockOn.CurrentTarget);
+            _playerMovement.RotateCharacterToTarget(_playerLockOn.CurrentTarget.transform.position);
         }
     }
 }

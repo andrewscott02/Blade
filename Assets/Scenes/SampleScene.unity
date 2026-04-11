@@ -272,7 +272,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   _minMoveSpeed: 1.2
-  _maxMoveSpeed: 9
+  _maxMoveSpeed: 6
+  _maxSprintSpeed: 9
+  _maxCombatSpeed: 4
   _maxAccelerationByCurrentSpeed:
     serializedVersion: 2
     m_Curve:
@@ -301,7 +303,7 @@ MonoBehaviour:
   _cameraObject: {fileID: 1383355648}
   _characterBody: {fileID: 2091017666}
   _animController: {fileID: 2091017668}
-  _speedToAnimationCurve:
+  _nonCombatSpeedToAnimationCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -325,7 +327,42 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _combatSpeedToAnimationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -9
+      value: -1
+      inSlope: 0.11111111
+      outSlope: 0.11111111
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.11111111
+      outSlope: 0.11111111
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 9
+      value: 1
+      inSlope: 0.11111111
+      outSlope: 0.11111111
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _animDampen: 0.2
+  _animDampenCombat: 0.1
+  _combatAnimThreshold: 0.25
 --- !u!114 &326812491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,6 +377,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   _initialState: 1
   _moveInput: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  _sprintInput: {fileID: -7471211009204490832, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _cameraInput: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _lockOnInput: {fileID: -4428758209736577613, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _nonCombatCam: {fileID: 660157585}
@@ -391,6 +429,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   drawGizmos: 0
+  _animController: {fileID: 2091017668}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
