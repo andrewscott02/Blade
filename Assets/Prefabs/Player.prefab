@@ -118,6 +118,7 @@ MonoBehaviour:
   _sprintInput: {fileID: -7471211009204490832, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _cameraInput: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _lockOnInput: {fileID: -4428758209736577613, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  _attackInput: {fileID: 1120369429361536294, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _nonCombatCam: {fileID: 0}
   _combatCam: {fileID: 0}
 --- !u!114 &4562750317775255910
@@ -290,6 +291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
   _animator: {fileID: 5383466961676929203}
+  _animatorEvents: {fileID: 4800786654139546643}
   _minGuardChangeThreshold: 0.25
   _animDampenGuard: 0.05
 --- !u!1 &2327550889414649134
@@ -451,6 +453,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a39d1cda70d4fe44e942eebca3e857a5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5383466961676929203}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a39d1cda70d4fe44e942eebca3e857a5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4800786654139546643}
   m_SourcePrefab: {fileID: 100100000, guid: a39d1cda70d4fe44e942eebca3e857a5, type: 3}
 --- !u!4 &4118373643820433998 stripped
 Transform:
@@ -489,6 +494,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4800786654139546643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8059871049016158940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2afb5f93b1fff1b4f8294d155dcc291c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterAnimatorEventsListener
 --- !u!4 &8840195669231069253 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1852576806548013000, guid: a39d1cda70d4fe44e942eebca3e857a5, type: 3}

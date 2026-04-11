@@ -22,6 +22,8 @@ public class PlayerManager : CharacterManager
     private InputActionReference _cameraInput;
     [SerializeField]
     private InputActionReference _lockOnInput;
+    [SerializeField]
+    private InputActionReference _attackInput;
 
     [SerializeField]
     private CinemachineCamera _nonCombatCam;
@@ -56,6 +58,7 @@ public class PlayerManager : CharacterManager
         _sprintInput.action.performed += CheckSprintInput;
         _sprintInput.action.canceled += CheckSprintCancelInput;
         _lockOnInput.action.performed += CheckLockOnInput;
+        _attackInput.action.performed += CheckAttackInput;
     }
 
     private void CheckCameraInput()
@@ -148,6 +151,25 @@ public class PlayerManager : CharacterManager
 
             _playerCamera.LookAtTarget(_playerLockOn.CurrentTarget);
             _playerMovement.RotateCharacterToTarget(_playerLockOn.CurrentTarget.transform.position);
+        }
+    }
+
+    private void CheckAttackInput(InputAction.CallbackContext context)
+    {
+        if (context.action.triggered)
+        {
+            switch (CurrentState)
+            {
+                case CharacterStates.NonCombat:
+                    break;
+                case CharacterStates.Combat:
+                    _playerCombat.Attack();
+                    break;
+                case CharacterStates.Dead:
+                    break;
+                default:
+                    throw new System.Exception("State not defined");
+            }
         }
     }
 }

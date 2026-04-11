@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using static CharacterAnimatorEventsListener;
 
 public static class GameUtils
 {
@@ -18,5 +20,16 @@ public static class GameUtils
         v.x = (cos * tx) - (sin * ty);
         v.y = (sin * tx) + (cos * ty);
         return v;
+    }
+
+    public static bool TryInvoke(this CharacterAnimatorEventDelegate callFunc)
+    {
+        if (callFunc.GetInvocationList().Length > 0)
+        {
+            callFunc.Invoke();
+            return true;
+        }
+
+        return false;
     }
 }
