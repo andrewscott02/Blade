@@ -1,9 +1,8 @@
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Windows;
 
-public class PlayerController : CharacterController
+public class PlayerManager : CharacterManager
 {
     [SerializeField]
     private CharacterStates _initialState = CharacterStates.NonCombat;
@@ -69,7 +68,6 @@ public class PlayerController : CharacterController
                 _playerCamera.RotateCam(inputValue);
                 break;
             case CharacterStates.Combat:
-                //TODO: Change guard
                 _playerCombat.SetGuard(inputValue);
                 break;
             case CharacterStates.Dead:

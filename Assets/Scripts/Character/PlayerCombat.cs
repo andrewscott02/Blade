@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Windows;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -25,14 +26,16 @@ public class PlayerCombat : MonoBehaviour
 
     internal void SetGuard(Vector2 input)
     {
-        if (input.magnitude < _minGuardChangeThreshold)
-            return;
-
-        _guardDirection = input.normalized;
+        _guardDirection = DetermineGuardDirection(input);
 
         _animator.SetFloat("GuardX", _guardDirection.x, _animDampenGuard, Time.deltaTime);
         _animator.SetFloat("GuardY", _guardDirection.y, _animDampenGuard, Time.deltaTime);
     }
+
+    private Vector2 DetermineGuardDirection(Vector2 input)
+        => input.magnitude >= _minGuardChangeThreshold
+        ? input.normalized
+        : Vector2.zero;
 
     internal void SetAnimationState(CharacterStates state)
     {
