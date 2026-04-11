@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class PlayerCamera : MonoBehaviour
 {
@@ -10,6 +12,9 @@ public class PlayerCamera : MonoBehaviour
 
     [SerializeField]
     private GameObject _cameraLookTarget;
+    [SerializeField]
+    private float _camXRotOffet = 50;
+    private const float _camStartRot = 180;
 
     internal void RotateCam(Vector2 input)
     {
@@ -30,4 +35,12 @@ public class PlayerCamera : MonoBehaviour
 
     private float ClampVerticalRotation(float rotation)
         => Mathf.Clamp(rotation, _rotationBounds.x, _rotationBounds.y);
+
+    internal void LookAtTarget(LockOnTarget currentTarget)
+    {
+        Vector3 rot = Quaternion.LookRotation(currentTarget.transform.position - transform.position).eulerAngles;
+        rot.x += _camXRotOffet;
+        rot.y += _camStartRot;
+        _cameraLookTarget.transform.rotation = Quaternion.Euler(rot);
+    }
 }

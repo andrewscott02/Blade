@@ -9,10 +9,16 @@ public class PlayerMovement : CharacterMovement
     [SerializeField]
     private float _maxMoveSpeed = 7f;
     [SerializeField]
+    private float _maxSprintSpeed = 9f;
+    [SerializeField]
+    private float _maxCombatSpeed = 3.5f;
+    [SerializeField]
     private AnimationCurve _maxAccelerationByCurrentSpeed;
+
     [SerializeField]
     private float _inputThreshold = 0.25f;
     private float _currentSpeed;
+    private bool _sprinting;
 
     [SerializeField]
     private GameObject _cameraObject;
@@ -25,13 +31,20 @@ public class PlayerMovement : CharacterMovement
     [SerializeField]
     private Animator _animController;
     [SerializeField]
-    private AnimationCurve _speedToAnimationCurve;
+    private AnimationCurve _nonCombatSpeedToAnimationCurve;
+    [SerializeField]
+    private AnimationCurve _combatSpeedToAnimationCurve;
     [SerializeField]
     private float _animDampen = 0.1f;
+    [SerializeField]
+    private float _animDampenCombat = 0.05f;
+    [SerializeField]
+    private float _combatAnimThreshold = 0.5f;
 
     private void Awake()
     {
         _playerRotation = new(_characterBody);
+        _sprinting = false;
     }
 
     public void Move(Vector2 input, CharacterStates currentState)
@@ -42,7 +55,7 @@ public class PlayerMovement : CharacterMovement
         if (input.magnitude > _inputThreshold)
         {
             movement = ConvertInputToDirection(input);
-            speedModifier = GetMovementSpeed(movement);
+            speedModifier = GetMovementSpeed(movement, currentState);
         }
         else
         {
@@ -51,7 +64,12 @@ public class PlayerMovement : CharacterMovement
 
         MoveCharacter(movement, speedModifier);
         CheckCharacterRotation(movement, currentState);
-        AnimateMovement(movement);
+        AnimateMovement(movement, input, currentState);
+    }
+
+    public void SetSprinting(bool triggered)
+    {
+        _sprinting = triggered;
     }
 
     private void MoveCharacter(Vector2 movement, float speedModifier)
@@ -59,13 +77,23 @@ public class PlayerMovement : CharacterMovement
         transform.position = ConvertMovementToPosition(movement * speedModifier);
     }
 
-    private float GetMovementSpeed(Vector2 movement)
+    private float GetMovementSpeed(Vector2 movement, CharacterStates currentState)
     {
         float acceleration = _maxAccelerationByCurrentSpeed.Evaluate(_currentSpeed);
-        _currentSpeed = Mathf.Clamp((acceleration + _currentSpeed) * movement.magnitude, _minMoveSpeed, _maxMoveSpeed);
+        float maxSpeed = GetMaxSpeed(currentState);
+        _currentSpeed = Mathf.Clamp((acceleration + _currentSpeed) * movement.magnitude, _minMoveSpeed, maxSpeed);
 
         return _currentSpeed * Time.deltaTime;
     }
+
+    private float GetMaxSpeed(CharacterStates currentState)
+        => currentState switch
+        {
+            CharacterStates.NonCombat => _sprinting ? _maxSprintSpeed : _maxMoveSpeed,
+            CharacterStates.Combat => _maxCombatSpeed,
+            _ => throw new System.NotImplementedException()
+        };
+
 
     #region Movement - Calculate Position
 
@@ -104,17 +132,54 @@ public class PlayerMovement : CharacterMovement
         }
     }
 
+    public void RotateCharacterToTarget(Vector3 targetPosition)
+    {
+        Vector3 dir = targetPosition - transform.position;
+        Vector2 dir2D = new Vector2(dir.x, dir.z);
+
+        _playerRotation.RotateBodyFromMovement(dir2D);
+    }
+
     #endregion
 
     #region Movement - Animation
 
-    private void AnimateMovement(Vector2 movement)
+    private void AnimateMovement(Vector2 movement, Vector2 input, CharacterStates currentState)
+    {
+        switch (currentState)
+        {
+            case CharacterStates.NonCombat:
+                AnimateMovementMagnitude(movement);
+                break;
+                case CharacterStates.Combat:
+                AnimateMovementMagnitude(movement);
+                AnimateMovementCombat(input);
+                break;
+                default:
+                throw new System.NotImplementedException();
+        }
+    }
+
+    private void AnimateMovementMagnitude(Vector2 movement)
     {
         Vector2 moveSpeed = movement * _currentSpeed;
+        float animSpeed = _nonCombatSpeedToAnimationCurve.Evaluate(moveSpeed.magnitude);
 
-        float animSpeed = _speedToAnimationCurve.Evaluate(moveSpeed.magnitude);
+        _animController.SetFloat("MoveMagnitude", animSpeed, _animDampen, Time.deltaTime);
+    }
 
-        _animController.SetFloat("MoveSpeed", animSpeed, _animDampen, Time.deltaTime);
+    private void AnimateMovementCombat(Vector2 input)
+    {
+        Vector2 moveSpeed = input * _currentSpeed;
+
+        moveSpeed.x = moveSpeed.x > _combatAnimThreshold || moveSpeed.x < -_combatAnimThreshold ? moveSpeed.x : 0;
+        moveSpeed.y = moveSpeed.y > _combatAnimThreshold || moveSpeed.y < -_combatAnimThreshold ? moveSpeed.y : 0;
+
+        float animSpeedX = _combatSpeedToAnimationCurve.Evaluate(moveSpeed.x);
+        float animSpeedY = _combatSpeedToAnimationCurve.Evaluate(moveSpeed.y);
+
+        _animController.SetFloat("MoveX", animSpeedX, _animDampenCombat, Time.deltaTime);
+        _animController.SetFloat("MoveZ", animSpeedY, _animDampenCombat, Time.deltaTime);
     }
 
     #endregion
