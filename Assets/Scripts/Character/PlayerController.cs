@@ -1,6 +1,7 @@
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 public class PlayerController : CharacterController
 {
@@ -10,6 +11,7 @@ public class PlayerController : CharacterController
 
     private PlayerMovement _playerMovement;
     private PlayerCamera _playerCamera;
+    private PlayerCombat _playerCombat;
     private PlayerLockOn _playerLockOn;
     private WeaponAttach _weaponAttach;
 
@@ -32,10 +34,9 @@ public class PlayerController : CharacterController
         CurrentState = _initialState;
         _playerMovement = GetComponent<PlayerMovement>();
         _playerCamera = GetComponent<PlayerCamera>();
+        _playerCombat = GetComponent<PlayerCombat>();
         _playerLockOn = GetComponent<PlayerLockOn>();
         _weaponAttach = GetComponent<WeaponAttach>();
-
-        _nonCombatCam.Prioritize();
 
         AssignInputs();
     }
@@ -69,6 +70,7 @@ public class PlayerController : CharacterController
                 break;
             case CharacterStates.Combat:
                 //TODO: Change guard
+                _playerCombat.SetGuard(inputValue);
                 break;
             case CharacterStates.Dead:
                 break;
@@ -121,6 +123,8 @@ public class PlayerController : CharacterController
 
             _playerMovement.SetSprinting(false);
             _playerLockOn.SetTarget(target);
+            _playerCombat.SetAnimationState(CurrentState);
+
             _combatCam.Prioritize();
             _weaponAttach.SetState(CurrentState);
         }
@@ -131,6 +135,8 @@ public class PlayerController : CharacterController
         CurrentState = CharacterStates.NonCombat;
 
         _playerLockOn.UnlockTarget();
+        _playerCombat.SetAnimationState(CurrentState);
+
         _nonCombatCam.Prioritize();
         _weaponAttach.SetState(CurrentState);
     }
