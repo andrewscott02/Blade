@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: C_LowGuard
+  m_Name: C_LowLeftGuard
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
