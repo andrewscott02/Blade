@@ -33,11 +33,11 @@ public class PlayerManager : CharacterManager
     private void Awake()
     {
         CurrentState = _initialState;
-        _playerMovement = GetComponent<PlayerMovement>();
-        _playerCamera = GetComponent<PlayerCamera>();
-        _playerCombat = GetComponent<PlayerCombat>();
-        _playerLockOn = GetComponent<PlayerLockOn>();
-        _weaponAttach = GetComponent<WeaponAttach>();
+        _playerMovement = GetComponentInChildren<PlayerMovement>();
+        _playerCamera = GetComponentInChildren<PlayerCamera>();
+        _playerCombat = GetComponentInChildren<PlayerCombat>();
+        _playerLockOn = GetComponentInChildren<PlayerLockOn>();
+        _weaponAttach = GetComponentInChildren<WeaponAttach>();
 
         AssignInputs();
     }

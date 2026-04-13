@@ -9,21 +9,7 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField]
     private CharacterAnimatorEventsListener _animatorEvents;
 
-    [SerializeField]
-    private float _minGuardChangeThreshold = 0.25f;
-
-    private Vector2 _guardDirection = Vector2.down;
-
-    private bool _canResetBaseGuard;
-
-    private bool _resetGuardCoroutineRunning;
-    private bool _canChangeGuard;
     private bool _canAttack;
-
-    [SerializeField]
-    private float _animDampenGuard = 0.05f;
-    [SerializeField]
-    private float _resetToBaseGuardAfterAttackingDelay = 1.75f;
 
     private const string _upperBodyLayerName = "UpperBody";
     private int _upperBodyLayerIndex;
@@ -33,8 +19,6 @@ public class PlayerCombat : MonoBehaviour
     private void Start()
     {
         _upperBodyLayerIndex = _animator.GetLayerIndex(_upperBodyLayerName);
-        _canResetBaseGuard = false;
-        _canChangeGuard = true;
         _canAttack = true;
 
         SetAnimationState(CharacterStates.NonCombat);
@@ -72,13 +56,18 @@ public class PlayerCombat : MonoBehaviour
         if (!_canAttack)
             return;
 
-        AnimateGuardDirection(0);
-        StopResetGuardToBaseCoroutine();
-        _canResetBaseGuard = false;
-        _canChangeGuard = false;
+        AnimateAttackDirection(0);
+        _guardController.StopResetGuardToBaseCoroutine();
+        _guardController.SetCanResetGuard(false);
         _canAttack = false;
 
         _animator.SetTrigger("Attack");
+    }
+
+    internal void AnimateAttackDirection(float dampen)
+    {
+        _animator.SetFloat("AttackX", _guardController.GuardDirection.x, dampen, Time.deltaTime);
+        _animator.SetFloat("AttackY", _guardController.GuardDirection.y, dampen, Time.deltaTime);
     }
 
     private List<AttackGuardChangeInfo> changeInfoQueue;
@@ -100,7 +89,7 @@ public class PlayerCombat : MonoBehaviour
 
         AttackGuardChangeInfo changeInfo = GetHighestPriority(changeInfoQueue);
         changeInfoQueue = null;
-        ResetCanChangeGuard(changeInfo);
+        _guardController.ResetCanChangeGuard(changeInfo);
     }
 
     private static AttackGuardChangeInfo GetHighestPriority(List<AttackGuardChangeInfo> changeInfoList)
@@ -118,47 +107,6 @@ public class PlayerCombat : MonoBehaviour
         }
 
         return highestPriorityItem;
-    }
-
-    private void ResetCanChangeGuard(AttackGuardChangeInfo changeInfo)
-    {
-        _canChangeGuard = true;
-        _guardDirection = GetGuardChangeDirection(changeInfo);
-        AnimateGuardDirection(0);
-
-        StopResetGuardToBaseCoroutine();
-        TryStartResetGuardToBaseCoroutine(_resetToBaseGuardAfterAttackingDelay);
-    }
-
-    private Vector2 GetGuardChangeDirection(AttackGuardChangeInfo changeInfo)
-        => changeInfo.GuardSwitchType switch
-        {
-            GuardSwitchType.OverrideDirection => changeInfo.GuardDirection,
-            GuardSwitchType.OppositeDirection => -_guardDirection,
-            _ => throw new System.NotImplementedException()
-        };
-
-    private IEnumerator ResetCanResetGuardToBase(float delay)
-    {
-        _resetGuardCoroutineRunning = true;
-        _canResetBaseGuard = false;
-        yield return new WaitForSeconds(delay);
-        _canResetBaseGuard = true;
-        _resetGuardCoroutineRunning = false;
-    }
-
-    private void TryStartResetGuardToBaseCoroutine(float delay)
-    {
-        if (_resetGuardCoroutineRunning)
-            return;
-
-        StartCoroutine(ResetCanResetGuardToBase(delay));
-    }
-
-    private void StopResetGuardToBaseCoroutine()
-    {
-        _resetGuardCoroutineRunning = false;
-        StopCoroutine(ResetCanResetGuardToBase(0));
     }
 
     private void ResetCanAttack()
