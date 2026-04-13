@@ -22,6 +22,8 @@ public class WeaponAttach : MonoBehaviour
         _weaponInstance = CreateWeapon();
         CurrentState = _initialState;
         AttachWeapon();
+
+        GetComponentInParent<PlayerManager>().CharacterStateChange += SetState;
     }
 
     [ContextMenu("Create Weapon")]
@@ -33,7 +35,7 @@ public class WeaponAttach : MonoBehaviour
         _weaponInstance.transform.SetParent(_attachPointsByState[CurrentState].transform, false);
     }
 
-    public void SetState(CharacterStates state)
+    private void SetState(CharacterStates state)
     {
         CurrentState = state;
         AttachWeapon();

@@ -6,13 +6,29 @@ public class PlayerManager : CharacterManager
 {
     [SerializeField]
     private CharacterStates _initialState = CharacterStates.NonCombat;
-    public CharacterStates CurrentState { get; private set; }
+    public CharacterStates _currentState;
+    public CharacterStates CurrentState
+    {
+        get 
+        { 
+            return _currentState;
+        }
+
+        private set
+        {
+            _currentState = value;
+            if (CharacterStateChange.GetInvocationList().Length > 0)
+                CharacterStateChange(_currentState);
+        }
+    }
+
+    public delegate void CharacterStateChangeDelegate(CharacterStates state);
+    public CharacterStateChangeDelegate CharacterStateChange;
 
     private PlayerMovement _playerMovement;
     private PlayerCamera _playerCamera;
     private PlayerCombat _playerCombat;
     private PlayerLockOn _playerLockOn;
-    private WeaponAttach _weaponAttach;
 
     [SerializeField]
     private InputActionReference _moveInput;
@@ -37,7 +53,6 @@ public class PlayerManager : CharacterManager
         _playerCamera = GetComponentInChildren<PlayerCamera>();
         _playerCombat = GetComponentInChildren<PlayerCombat>();
         _playerLockOn = GetComponentInChildren<PlayerLockOn>();
-        _weaponAttach = GetComponentInChildren<WeaponAttach>();
 
         AssignInputs();
     }
@@ -127,7 +142,6 @@ public class PlayerManager : CharacterManager
             _playerCombat.SetAnimationState(CurrentState);
 
             _combatCam.Prioritize();
-            _weaponAttach.SetState(CurrentState);
         }
     }
 
@@ -139,7 +153,6 @@ public class PlayerManager : CharacterManager
         _playerCombat.SetAnimationState(CurrentState);
 
         _nonCombatCam.Prioritize();
-        _weaponAttach.SetState(CurrentState);
     }
 
     private void RotateCameraToTarget()
