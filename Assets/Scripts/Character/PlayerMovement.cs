@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class PlayerMovement : CharacterMovement
 {
+    [SerializeField]
+    private GameObject _characterContainer;
+
     private PlayerRotation _playerRotation;
 
     [SerializeField]
@@ -74,7 +77,7 @@ public class PlayerMovement : CharacterMovement
 
     private void MoveCharacter(Vector2 movement, float speedModifier)
     {
-        transform.position = ConvertMovementToPosition(movement * speedModifier);
+        _characterContainer.transform.position = ConvertMovementToPosition(movement * speedModifier);
     }
 
     private float GetMovementSpeed(Vector2 movement, CharacterStates currentState)
@@ -105,7 +108,7 @@ public class PlayerMovement : CharacterMovement
 
     private Vector3 ConvertMovementToPosition(Vector2 movement)
     {
-        Vector3 newPos = transform.position;
+        Vector3 newPos = _characterContainer.transform.position;
         newPos.x += movement.x;
         newPos.z += movement.y;
         return newPos;
@@ -134,7 +137,7 @@ public class PlayerMovement : CharacterMovement
 
     public void RotateCharacterToTarget(Vector3 targetPosition)
     {
-        Vector3 dir = targetPosition - transform.position;
+        Vector3 dir = targetPosition - _characterContainer.transform.position;
         Vector2 dir2D = new Vector2(dir.x, dir.z);
 
         _playerRotation.RotateBodyFromMovement(dir2D);

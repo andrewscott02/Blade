@@ -25,7 +25,7 @@ public class GuardDirectionController : MonoBehaviour
         _animator = animator;
 
         _resetGuardCoroutineRunning = false;
-        _canResetBaseGuard = false;
+        _canResetBaseGuard = true;
         _canChangeGuard = true;
     }
 
