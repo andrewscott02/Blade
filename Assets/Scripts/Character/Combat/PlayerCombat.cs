@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
@@ -27,6 +28,8 @@ public class PlayerCombat : MonoBehaviour
     private const string _upperBodyLayerName = "UpperBody";
     private int _upperBodyLayerIndex;
 
+    private GuardDirectionController _guardController;
+
     private void Start()
     {
         _upperBodyLayerIndex = _animator.GetLayerIndex(_upperBodyLayerName);
@@ -36,40 +39,17 @@ public class PlayerCombat : MonoBehaviour
 
         SetAnimationState(CharacterStates.NonCombat);
 
-        _animatorEvents.ResetChangeGuardDelegate += ResetCanChangeGuard;
+        _animatorEvents.ResetChangeGuardDelegate += RequestResetCanChangeGuard;
         _animatorEvents.ResetAttackDelegate += ResetCanAttack;
+
+        _guardController = GetComponent<GuardDirectionController>();
+        _guardController.Init(_animator);
     }
 
     internal void SetGuard(Vector2 input)
     {
-        //TODO: Maybe queue up a desired guard direction for when guarding becomes available?
-        if (!_canChangeGuard)
-            return;
-
-        _guardDirection = DetermineGuardDirection(input);
-        AnimateGuardDirection(_animDampenGuard);
+        _guardController.SetGuard(input);
     }
-
-    private void AnimateGuardDirection(float dampenGuard)
-    {
-        _animator.SetFloat("GuardX", _guardDirection.x, dampenGuard, Time.deltaTime);
-        _animator.SetFloat("GuardY", _guardDirection.y, dampenGuard, Time.deltaTime);
-    }
-
-    private Vector2 DetermineGuardDirection(Vector2 input)
-    {
-        if (input.magnitude >= _minGuardChangeThreshold)
-        {
-            return input.normalized;
-        }
-
-        return ResetGuardPos();
-    }
-
-    private Vector2 ResetGuardPos()
-        => _canResetBaseGuard
-        ? Vector2.zero
-        : _guardDirection;
 
     internal void SetAnimationState(CharacterStates state)
     {
@@ -99,18 +79,64 @@ public class PlayerCombat : MonoBehaviour
         _canAttack = false;
 
         _animator.SetTrigger("Attack");
-
-        _guardDirection = -_guardDirection;
     }
 
-    private void ResetCanChangeGuard()
+    private List<AttackGuardChangeInfo> changeInfoQueue;
+
+    private void RequestResetCanChangeGuard(AttackGuardChangeInfo changeInfo)
+    {
+        if (changeInfoQueue == null || changeInfoQueue.Count == 0)
+        {
+            changeInfoQueue = new List<AttackGuardChangeInfo>();
+            StartCoroutine(QueueResetCanChangeGuard());
+        }
+
+        changeInfoQueue.Add(changeInfo);
+    }
+
+    private IEnumerator QueueResetCanChangeGuard()
+    {
+        yield return new WaitForFixedUpdate();
+
+        AttackGuardChangeInfo changeInfo = GetHighestPriority(changeInfoQueue);
+        changeInfoQueue = null;
+        ResetCanChangeGuard(changeInfo);
+    }
+
+    private static AttackGuardChangeInfo GetHighestPriority(List<AttackGuardChangeInfo> changeInfoList)
+    {
+        AttackGuardChangeInfo highestPriorityItem = null;
+        int highestPriorityIndex = -99999999;
+
+        foreach (AttackGuardChangeInfo changeInfo in changeInfoList)
+        {
+            if (highestPriorityItem == null || changeInfo.Priority > highestPriorityIndex)
+            {
+                highestPriorityItem = changeInfo;
+                highestPriorityIndex = changeInfo.Priority;
+            }
+        }
+
+        return highestPriorityItem;
+    }
+
+    private void ResetCanChangeGuard(AttackGuardChangeInfo changeInfo)
     {
         _canChangeGuard = true;
+        _guardDirection = GetGuardChangeDirection(changeInfo);
         AnimateGuardDirection(0);
 
         StopResetGuardToBaseCoroutine();
         TryStartResetGuardToBaseCoroutine(_resetToBaseGuardAfterAttackingDelay);
     }
+
+    private Vector2 GetGuardChangeDirection(AttackGuardChangeInfo changeInfo)
+        => changeInfo.GuardSwitchType switch
+        {
+            GuardSwitchType.OverrideDirection => changeInfo.GuardDirection,
+            GuardSwitchType.OppositeDirection => -_guardDirection,
+            _ => throw new System.NotImplementedException()
+        };
 
     private IEnumerator ResetCanResetGuardToBase(float delay)
     {

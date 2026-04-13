@@ -32,4 +32,15 @@ public static class GameUtils
 
         return false;
     }
+
+    public static bool TryInvoke(this GuardInfoEventDelegate callFunc, AttackGuardChangeInfo changeInfo)
+    {
+        if (callFunc.GetInvocationList().Length > 0)
+        {
+            callFunc.Invoke(changeInfo);
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -5,15 +5,22 @@ public class CharacterAnimatorEventsListener : MonoBehaviour
     public delegate void CharacterAnimatorEventDelegate();
 
     public CharacterAnimatorEventDelegate ResetAttackDelegate;
-    public CharacterAnimatorEventDelegate ResetChangeGuardDelegate;
+
+    public delegate void GuardInfoEventDelegate(AttackGuardChangeInfo changeInfo);
+    public GuardInfoEventDelegate ResetChangeGuardDelegate;
 
     public void ResetAttack()
     {
         ResetAttackDelegate.TryInvoke();
     }
 
-    public void ResetChangeGuard()
+    public void ResetChangeGuard(Object animObject)
     {
-        ResetChangeGuardDelegate.TryInvoke();
+        AttackGuardChangeInfo changeInfo = (AttackGuardChangeInfo)animObject;
+
+        if (changeInfo == null)
+            throw new System.Exception();
+
+        ResetChangeGuardDelegate.TryInvoke(changeInfo);
     }
 }
