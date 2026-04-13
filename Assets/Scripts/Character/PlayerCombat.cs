@@ -22,14 +22,10 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField]
     private float _animDampenGuard = 0.05f;
     [SerializeField]
-    private float _resetToBaseGuardDelay = 0.75f;
-    [SerializeField]
     private float _resetToBaseGuardAfterAttackingDelay = 1.75f;
 
     private const string _upperBodyLayerName = "UpperBody";
     private int _upperBodyLayerIndex;
-
-    private bool debug_guardThresholdMet;
 
     private void Start()
     {
@@ -51,30 +47,22 @@ public class PlayerCombat : MonoBehaviour
             return;
 
         _guardDirection = DetermineGuardDirection(input);
-        AnimateGuardDirection();
+        AnimateGuardDirection(_animDampenGuard);
     }
 
-    private void AnimateGuardDirection()
+    private void AnimateGuardDirection(float dampenGuard)
     {
-        _animator.SetFloat("GuardX", _guardDirection.x, _animDampenGuard, Time.deltaTime);
-        _animator.SetFloat("GuardY", _guardDirection.y, _animDampenGuard, Time.deltaTime);
+        _animator.SetFloat("GuardX", _guardDirection.x, dampenGuard, Time.deltaTime);
+        _animator.SetFloat("GuardY", _guardDirection.y, dampenGuard, Time.deltaTime);
     }
 
     private Vector2 DetermineGuardDirection(Vector2 input)
     {
         if (input.magnitude >= _minGuardChangeThreshold)
         {
-            debug_guardThresholdMet = true;
-
-            StopResetGuardToBaseCoroutine();
-            //TryStartResetGuardToBaseCoroutine(_resetToBaseGuardDelay);
-
             return input.normalized;
         }
 
-        debug_guardThresholdMet = false;
-        //TODO: Not working as expected?
-        TryStartResetGuardToBaseCoroutine(_resetToBaseGuardDelay);
         return ResetGuardPos();
     }
 
@@ -104,7 +92,7 @@ public class PlayerCombat : MonoBehaviour
         if (!_canAttack)
             return;
 
-        AnimateGuardDirection();
+        AnimateGuardDirection(0);
         StopResetGuardToBaseCoroutine();
         _canResetBaseGuard = false;
         _canChangeGuard = false;
@@ -118,7 +106,7 @@ public class PlayerCombat : MonoBehaviour
     private void ResetCanChangeGuard()
     {
         _canChangeGuard = true;
-        AnimateGuardDirection();
+        AnimateGuardDirection(0);
 
         StopResetGuardToBaseCoroutine();
         TryStartResetGuardToBaseCoroutine(_resetToBaseGuardAfterAttackingDelay);

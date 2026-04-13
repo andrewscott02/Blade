@@ -1073,6 +1073,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5337073936771830341, guid: e56c45f5ee0a57447bfb377517683fb6, type: 3}
+      propertyPath: _animDampenGuard
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 6734033715884938381, guid: e56c45f5ee0a57447bfb377517683fb6, type: 3}
       propertyPath: m_Camera
       value: 
