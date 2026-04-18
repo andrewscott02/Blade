@@ -178,6 +178,8 @@ MonoBehaviour:
   _tip: {fileID: 5269727336942892017}
   _baseStrength: 0
   _tipStrength: 0
+  _hitBoxSize: {x: 0.03, y: 1.2, z: 0.03}
+  _hitDivisions: 6
 --- !u!65 &6714423828882684023
 BoxCollider:
   m_ObjectHideFlags: 0
