@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using static CharacterAnimatorEventsListener;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public static class GameUtils
 {
@@ -40,7 +42,9 @@ public static class GameUtils
             callFunc.Invoke(changeInfo);
             return true;
         }
-
         return false;
     }
+
+    public static bool ContainsLayer(this LayerMask mask, int layer)
+        => (mask & (1 << layer)) != 0;
 }

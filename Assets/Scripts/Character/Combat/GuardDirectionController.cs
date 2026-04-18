@@ -54,7 +54,7 @@ public class GuardDirectionController : MonoBehaviour
     {
         if (input.magnitude >= _minGuardChangeThreshold)
         {
-            return input.normalized;
+            return input;
         }
 
         return ResetGuardPos();

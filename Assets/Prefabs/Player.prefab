@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c509a052deca8240960394254dfb7ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCamera
-  _rotateModifiers: {x: 0.6, y: 0.6}
+  _rotateModifiers: {x: 1, y: 1}
   _rotationBounds: {x: 0, y: 85}
   _cameraLookTarget: {fileID: 7559394643433867147}
   _camXRotOffet: 45
@@ -397,7 +397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a18ae8d49931b9145aef66eb0d5a176e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GuardDirectionController
-  _minGuardChangeThreshold: 0.25
+  _minGuardChangeThreshold: 0.05
   _animDampenGuard: 0.05
   _resetToBaseGuardAfterAttackingDelay: 1.75
 --- !u!114 &2713288630017502178
@@ -412,7 +412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 383362ad71ae76743b89ec287ca3ecb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponAttach
-  _weaponPrefab: {fileID: 4334314812708720168, guid: edccbf15fadd9704cb7a2020a492b120, type: 3}
+  _weaponPrefab: {fileID: 6480290155324800683, guid: 65686b23e35b9884b8bc2fe2ef72f308, type: 3}
   _attachPoints:
   - State: 1
     AttachPoint: {fileID: 3524963638420122992}
