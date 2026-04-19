@@ -171,6 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48addd8493660944a995426168b321f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
+  rb: {fileID: 908934513556500964}
   _hitLayers:
     serializedVersion: 2
     m_Bits: 128
@@ -180,6 +181,8 @@ MonoBehaviour:
   _tipStrength: 0
   _hitBoxSize: {x: 0.03, y: 1.2, z: 0.03}
   _hitDivisions: 6
+  forceTest: 1500000
+  forceTestSelf: 0
 --- !u!65 &6714423828882684023
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -209,9 +212,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9099422744485833541}
   serializedVersion: 5
-  m_Mass: 60
-  m_LinearDamping: 8
-  m_AngularDamping: 8
+  m_Mass: 200
+  m_LinearDamping: 15
+  m_AngularDamping: 15
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -244,8 +247,8 @@ HingeJoint:
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
   m_UseSpring: 1
   m_Spring:
-    spring: 1000000
-    damper: 0
+    spring: 100000
+    damper: 10
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:

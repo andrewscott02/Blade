@@ -1,12 +1,12 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour, IHittable
 {
+    [SerializeField]
+    private Rigidbody rb;
+
     [SerializeField]
     private LayerMask _hitLayers;
 
@@ -44,22 +44,28 @@ public class Weapon : MonoBehaviour, IHittable
 
         LastPosBase = _base.transform.position;
         LastPosTip = _tip.transform.position;
+
+        _hitColliders = new();
     }
 
     private void CheckAllCollisions()
     {
-        RaycastHit[] hitObjects = GetHitObjects().ToArray();
+        RayCastHitInfo[] hitObjects = GetHitObjects().ToArray();
 
-        foreach (RaycastHit hitObject in hitObjects)
+        foreach (RayCastHitInfo hitInfo in hitObjects)
         {
-            if (!_hitColliders.Contains(hitObject.collider))
-                Debug.Log($"{gameObject.name} Skipped hitting {hitObject.collider.gameObject.name}");
+            if (!_hitColliders.Contains(hitInfo.rayHit.collider))
+            {
+                ApplySkippedForce(hitInfo);
+            }
         }
-
-        //_hitColliders = new();
     }
 
-    private IEnumerable<RaycastHit> GetHitObjects()
+    #region Collision Detection
+
+    #region Raycast Collision Detection
+
+    private IEnumerable<RayCastHitInfo> GetHitObjects()
     {
         List<RaycastHit> hitObjects = new();
 
@@ -69,29 +75,20 @@ public class Weapon : MonoBehaviour, IHittable
         {
             float t = interval * i;
 
-            foreach (RaycastHit hit in CheckBoxCollision(t))
+            Vector3 centerStart = Vector3.Lerp(LastPosBase, LastPosTip, t);
+            Vector3 centerEnd = Vector3.Lerp(_base.transform.position, _tip.transform.position, t);
+
+            foreach (RaycastHit hit in CheckBoxCollision(t, centerStart, centerEnd))
             {
                 if (IsNotThisObject(hit)
                 && TryGetHittable(hit.collider.gameObject, out IHittable hittable)
                 && !hitObjects.Contains(hit))
                 {
                     hitObjects.Add(hit);
-                    yield return hit;
+                    yield return new(hit, centerStart, centerEnd);
                 }
             }
         }
-
-
-        //foreach (RaycastHit hit in TestCheckBoxCollision())
-        //{
-        //    if (IsNotThisObject(hit)
-        //    && TryGetHittable(hit.collider.gameObject, out IHittable hittable)
-        //    && !hitObjects.Contains(hit))
-        //    {
-        //        hitObjects.Add(hit);
-        //        yield return hit;
-        //    }
-        //}
     }
 
     private bool IsNotThisObject(RaycastHit hit)
@@ -99,13 +96,9 @@ public class Weapon : MonoBehaviour, IHittable
         && !hit.collider.transform.IsChildOf(transform)
         && !hit.collider.transform != transform;
 
-    private RaycastHit[] CheckBoxCollision(float t)
+    private RaycastHit[] CheckBoxCollision(float t, Vector3 centerStart, Vector3 centerEnd)
     {
-        Vector3 centerStart = Vector3.Lerp(LastPosBase, LastPosTip, t);
-        Vector3 centerEnd = Vector3.Lerp(_base.transform.position, _tip.transform.position, t);
-
-        Vector3 halfExtents = new(_hitBoxSize.x, ((Vector3.Distance(LastPosBase, LastPosTip) / _hitDivisions)), _hitBoxSize.z);
-        //halfExtents /= 2;
+        Vector3 halfExtents = new(_hitBoxSize.x, Vector3.Distance(LastPosBase, LastPosTip) / _hitDivisions, _hitBoxSize.z);
 
         Vector3 dir = centerEnd - centerStart;
         float distance = Vector3.Distance(centerStart, centerEnd);
@@ -118,46 +111,23 @@ public class Weapon : MonoBehaviour, IHittable
         return Physics.BoxCastAll(centerStart, halfExtents, dir, orientation, distance, _hitLayers);
     }
 
-    //public Vector3 centerEndTest;
-    //public float maxDist = 5f;
-    //private RaycastHit[] TestCheckBoxCollision()
-    //{
-    //    Vector3 centerStart = transform.position;
-    //    Vector3 centerEnd = transform.position + centerEndTest;
-
-    //    Vector3 halfExtents = new(_hitBoxSize.z, ((Vector3.Distance(LastPosBase, LastPosTip) / _hitDivisions)), _hitBoxSize.z);
-    //    //halfExtents /= 2;
-
-    //    Vector3 dir = centerEnd - centerStart;
-    //    float distance = maxDist;
-
-    //    Quaternion orientation = dir != Vector3.zero
-    //        ? Quaternion.LookRotation(dir, transform.up)
-    //        : transform.rotation;
-
-    //    DebugBoxCast.SimpleDrawBoxCast(centerStart, halfExtents, dir, orientation, distance, Color.red);
-    //    return Physics.BoxCastAll(centerStart, halfExtents, dir, orientation, distance, _hitLayers);
-    //}
-
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (CanHitOther(other, out IHittable hittable))
-    //    {
-    //        float t = PosTest(other.transform.position, _base.transform.position, _tip.transform.position);
-    //        float strength = Mathf.Lerp(_baseStrength, _baseStrength, t);
-    //        Vector3 direction = Vector3.Lerp(LastPosBase, LastPosTip, t);
-
-    //        hittable.Hit(direction, other.transform.position, strength);
-    //    }
-    //}
+    #endregion
 
     private void OnCollisionEnter(Collision collision)
     {
         if (TryGetHittable(collision.gameObject, out IHittable hittable))
         {
             _hitColliders.Add(collision.collider);
-            //float test = PosTest(collision.transform.position);
+            //hittable.Hit();
+        }
+    }
 
+    private void OnCollisionStay(Collision collision)
+    {
+        if (TryGetHittable(collision.gameObject, out IHittable hittable))
+        {
+            if (!_hitColliders.Contains(collision.collider))
+                _hitColliders.Add(collision.collider);
             //hittable.Hit();
         }
     }
@@ -167,69 +137,36 @@ public class Weapon : MonoBehaviour, IHittable
         if (TryGetHittable(collision.gameObject, out IHittable hittable))
         {
             _hitColliders.Remove(collision.collider);
-            //float test = PosTest(collision.transform.position);
-
-            //hittable.Hit();
         }
     }
-
-    //private bool CanHitOther(Collider collision, out IHittable hittable)
-    //    => collision.gameObject.TryGetComponent(out hittable)
-    //    && _hitLayers.ContainsLayer(collision.gameObject.layer);
 
     private bool TryGetHittable(GameObject gameObject, out IHittable hittable)
         => gameObject.TryGetComponent(out hittable)
         && _hitLayers.ContainsLayer(gameObject.layer);
 
-    private float PosTest(Vector3 pos, Vector3 A, Vector3 B)
-    {
-        Vector3 AP = pos - A;
-        Vector3 AB = B - A;
-        float distSqr = AB.sqrMagnitude;
-        float d = Vector3.Dot(AP, AB) / distSqr;
+    #endregion
 
-        return d;
+    public float forceTest = 1f;
+    public float forceTestSelf = 1f;
+
+    private void ApplySkippedForce(RayCastHitInfo hitInfo)
+    {
+        Debug.Log($"{gameObject.name} Skipped hitting {hitInfo.rayHit.collider.gameObject.name}");
+
+        Vector3 dir = hitInfo.targetPos - hitInfo.initialPos;
+        Vector3 force = dir.normalized * dir.magnitude * forceTest;// * Time.fixedDeltaTime;
+
+        hitInfo.rayHit.rigidbody.AddForceAtPosition(force, hitInfo.rayHit.point);
+
+        Vector3 dirSelf = hitInfo.initialPos - hitInfo.targetPos;
+        Vector3 forceSelf = dirSelf.normalized * dirSelf.magnitude * forceTestSelf;// * Time.fixedDeltaTime;
+
+        rb.AddForceAtPosition(forceSelf, hitInfo.rayHit.point);
+        _hitColliders.Remove(hitInfo.rayHit.collider);
     }
 
     public void Hit(Vector3 direction, Vector3 position, float strength)
     {
         //throw new System.NotImplementedException();
     }
-
-    //private void OnDrawGizmosSelected()
-    //{
-    //    Gizmos.color = Color.red;
-
-    //    float interval = 1 / (float)_hitDivisions;
-
-    //    for (int i = 0; i < _hitDivisions; i++)
-    //    {
-    //        float t = interval * i;
-
-    //        DrawGizmoBox(t);
-    //    }
-    //}
-
-    //private void DrawGizmoBox(float t)
-    //{
-    //    Vector3 centerStart = Vector3.Lerp(LastPosBase, LastPosTip, t);
-    //    Vector3 centerEnd = Vector3.Lerp(_base.transform.position, _tip.transform.position, t);
-    //    Vector3 boxCenter = Vector3.Lerp(centerStart, centerEnd, 0.5f);
-
-    //    Vector3 halfExtents = new(_hitBoxSize.z, ((Vector3.Distance(LastPosBase, LastPosTip) / _hitDivisions)), Vector3.Distance(centerStart, centerEnd));
-    //    halfExtents /= 2;
-
-    //    Vector3 dir = centerEnd - centerStart;
-
-    //    Quaternion orientation = dir != Vector3.zero
-    //        ? Quaternion.LookRotation(dir, transform.up)
-    //        : Quaternion.Lerp(_base.transform.rotation, _tip.transform.rotation, t);
-
-    //    Matrix4x4 rotationMatrix = Matrix4x4.TRS(transform.position, orientation*transform.rotation, transform.lossyScale);
-    //    //Matrix4x4 rotationMatrix = Matrix4x4.TRS(transform.position, orientation, transform.lossyScale);
-    //    Gizmos.matrix = rotationMatrix;
-
-
-    //    Gizmos.DrawWireCube(boxCenter, halfExtents);
-    //}
 }
