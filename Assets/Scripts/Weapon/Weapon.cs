@@ -56,6 +56,7 @@ public class Weapon : MonoBehaviour, IHittable
         {
             if (!_hitColliders.Contains(hitInfo.rayHit.collider))
             {
+                //TODO: order by distance (get lerp pos along initial and target to find distance from sword)
                 ApplySkippedForce(hitInfo);
             }
         }
@@ -157,6 +158,9 @@ public class Weapon : MonoBehaviour, IHittable
         Vector3 force = dir.normalized * dir.magnitude * forceTest;// * Time.fixedDeltaTime;
 
         hitInfo.rayHit.rigidbody.AddForceAtPosition(force, hitInfo.rayHit.point);
+
+        //TODO: self collision is really bad
+        //Maybe revert position to start position if block is strong enough
 
         Vector3 dirSelf = hitInfo.initialPos - hitInfo.targetPos;
         Vector3 forceSelf = dirSelf.normalized * dirSelf.magnitude * forceTestSelf;// * Time.fixedDeltaTime;
