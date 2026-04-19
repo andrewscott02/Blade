@@ -3,9 +3,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewGuardChangeInfo", menuName = "AttackInfo/GuardChangeInfo")]
 public class AttackGuardChangeInfo : ScriptableObject
 {
-    [SerializeField]
-    private int _priority;
-    public int Priority => _priority;
+    private float _priority;
+    public float Priority => _priority;
+    public void SetPriority(float priority)
+        { this._priority = priority; }
 
     [SerializeField]
     private GuardSwitchType _guardSwitchType;

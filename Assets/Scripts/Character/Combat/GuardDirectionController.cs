@@ -29,6 +29,11 @@ public class GuardDirectionController : MonoBehaviour
         _canChangeGuard = true;
     }
 
+    internal void SetCanChangeGuard(bool canReset)
+    {
+        _canChangeGuard = canReset;
+    }
+
     internal void SetCanResetGuard(bool canReset)
     {
         _canResetBaseGuard = canReset;
@@ -67,7 +72,6 @@ public class GuardDirectionController : MonoBehaviour
 
     internal void ResetCanChangeGuard(AttackGuardChangeInfo changeInfo)
     {
-        _canChangeGuard = true;
         _guardDirection = GetGuardChangeDirection(changeInfo);
         AnimateGuardDirection(0);
 
@@ -82,7 +86,7 @@ public class GuardDirectionController : MonoBehaviour
         => changeInfo.GuardSwitchType switch
         {
             GuardSwitchType.OverrideDirection => changeInfo.GuardDirection,
-            GuardSwitchType.OppositeDirection => -_guardDirection,
+            GuardSwitchType.OppositeDirection => -_guardDirection.normalized,
             _ => throw new System.NotImplementedException()
         };
 

@@ -16,6 +16,8 @@ public class PlayerCombat : MonoBehaviour
 
     private GuardDirectionController _guardController;
 
+    private List<AttackGuardChangeInfo> changeInfoQueue;
+
     private void Start()
     {
         _upperBodyLayerIndex = _animator.GetLayerIndex(_upperBodyLayerName);
@@ -57,7 +59,9 @@ public class PlayerCombat : MonoBehaviour
             return;
 
         AnimateAttackDirection(0);
+        _guardController.StopResetGuardCoroutine();
         _guardController.StopResetGuardToBaseCoroutine();
+        _guardController.SetCanChangeGuard(false);
         _guardController.SetCanResetGuard(false);
         _canAttack = false;
 
@@ -69,8 +73,6 @@ public class PlayerCombat : MonoBehaviour
         _animator.SetFloat("AttackX", _guardController.GuardDirection.x, dampen, Time.deltaTime);
         _animator.SetFloat("AttackY", _guardController.GuardDirection.y, dampen, Time.deltaTime);
     }
-
-    private List<AttackGuardChangeInfo> changeInfoQueue;
 
     private void RequestResetCanChangeGuard(AttackGuardChangeInfo changeInfo)
     {
@@ -95,7 +97,7 @@ public class PlayerCombat : MonoBehaviour
     private static AttackGuardChangeInfo GetHighestPriority(List<AttackGuardChangeInfo> changeInfoList)
     {
         AttackGuardChangeInfo highestPriorityItem = null;
-        int highestPriorityIndex = -99999999;
+        float highestPriorityIndex = -99999999;
 
         foreach (AttackGuardChangeInfo changeInfo in changeInfoList)
         {

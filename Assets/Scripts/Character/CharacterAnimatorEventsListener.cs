@@ -14,13 +14,14 @@ public class CharacterAnimatorEventsListener : MonoBehaviour
         ResetAttackDelegate.TryInvoke();
     }
 
-    public void ResetChangeGuard(Object animObject)
+    public void ResetChangeGuard(AnimationEvent animEvent)
     {
-        AttackGuardChangeInfo changeInfo = (AttackGuardChangeInfo)animObject;
+        AttackGuardChangeInfo changeInfo = (AttackGuardChangeInfo)animEvent.objectReferenceParameter;
+        changeInfo.SetPriority(animEvent.animatorClipInfo.weight);
 
         if (changeInfo == null)
             throw new System.Exception();
 
         ResetChangeGuardDelegate.TryInvoke(changeInfo);
-    }
+    }    
 }
