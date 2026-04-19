@@ -12,19 +12,19 @@ public class GuardDirectionController : MonoBehaviour
     internal Vector2 GuardDirection => _guardDirection;
 
     private bool _resetGuardCoroutineRunning;
+    private bool _resetGuardToBaseCoroutineRunning;
     private bool _canResetBaseGuard;
     private bool _canChangeGuard;
 
     [SerializeField]
     private float _animDampenGuard = 0.05f;
-    [SerializeField]
-    private float _resetToBaseGuardAfterAttackingDelay = 1.75f;
 
     internal void Init(Animator animator)
     {
         _animator = animator;
 
         _resetGuardCoroutineRunning = false;
+        _resetGuardToBaseCoroutineRunning = false;
         _canResetBaseGuard = true;
         _canChangeGuard = true;
     }
@@ -71,8 +71,11 @@ public class GuardDirectionController : MonoBehaviour
         _guardDirection = GetGuardChangeDirection(changeInfo);
         AnimateGuardDirection(0);
 
+        StopResetGuardCoroutine();
+        TryStartResetGuardCoroutine(changeInfo.CanResetGuardDelay);
+
         StopResetGuardToBaseCoroutine();
-        TryStartResetGuardToBaseCoroutine(_resetToBaseGuardAfterAttackingDelay);
+        TryStartResetGuardToBaseCoroutine(changeInfo.CanResetGuardToBaseDelay);
     }
 
     private Vector2 GetGuardChangeDirection(AttackGuardChangeInfo changeInfo)
@@ -83,18 +86,46 @@ public class GuardDirectionController : MonoBehaviour
             _ => throw new System.NotImplementedException()
         };
 
-    private IEnumerator ResetCanResetGuardToBase(float delay)
+    #region Reset Can Change Guard
+
+    private IEnumerator ResetCanResetGuard(float delay)
     {
         _resetGuardCoroutineRunning = true;
+        _canChangeGuard = false;
+        yield return new WaitForSeconds(delay);
+        _canChangeGuard = true;
+    }
+
+    private void TryStartResetGuardCoroutine(float delay)
+    {
+        if (_resetGuardCoroutineRunning)
+            return;
+
+        StartCoroutine(ResetCanResetGuard(delay));
+    }
+
+    public void StopResetGuardCoroutine()
+    {
+        _resetGuardCoroutineRunning = false;
+        StopCoroutine(ResetCanResetGuard(0));
+    }
+
+    #endregion
+
+    #region Reset Guard To Base
+
+    private IEnumerator ResetCanResetGuardToBase(float delay)
+    {
+        _resetGuardToBaseCoroutineRunning = true;
         _canResetBaseGuard = false;
         yield return new WaitForSeconds(delay);
         _canResetBaseGuard = true;
-        _resetGuardCoroutineRunning = false;
+        _resetGuardToBaseCoroutineRunning = false;
     }
 
     private void TryStartResetGuardToBaseCoroutine(float delay)
     {
-        if (_resetGuardCoroutineRunning)
+        if (_resetGuardToBaseCoroutineRunning)
             return;
 
         StartCoroutine(ResetCanResetGuardToBase(delay));
@@ -102,7 +133,9 @@ public class GuardDirectionController : MonoBehaviour
 
     public void StopResetGuardToBaseCoroutine()
     {
-        _resetGuardCoroutineRunning = false;
+        _resetGuardToBaseCoroutineRunning = false;
         StopCoroutine(ResetCanResetGuardToBase(0));
     }
+
+    #endregion
 }

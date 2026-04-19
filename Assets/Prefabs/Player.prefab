@@ -303,6 +303,7 @@ MonoBehaviour:
   _cameraInput: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _lockOnInput: {fileID: -4428758209736577613, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _attackInput: {fileID: 1120369429361536294, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  _attackAltInput: {fileID: 3110762874162212108, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _nonCombatCam: {fileID: 0}
   _combatCam: {fileID: 0}
 --- !u!1 &2327550889414649134

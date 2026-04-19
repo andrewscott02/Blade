@@ -89,7 +89,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 1
 --- !u!1 &5269727336942892017
 GameObject:
@@ -179,9 +179,9 @@ MonoBehaviour:
   _tip: {fileID: 5269727336942892017}
   _baseStrength: 0
   _tipStrength: 0
-  _hitBoxSize: {x: 0.03, y: 1.2, z: 0.03}
-  _hitDivisions: 6
-  forceTest: 1500000
+  _hitBoxSize: {x: 0.08, y: 1.2, z: 0.08}
+  _hitDivisions: 7
+  forceTest: 3000000
   forceTestSelf: 0
 --- !u!65 &6714423828882684023
 BoxCollider:
@@ -202,7 +202,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.07, y: 1.2, z: 0.03}
+  m_Size: {x: 0.12, y: 1.24, z: 0.08}
   m_Center: {x: 0, y: 0.6, z: 0}
 --- !u!54 &908934513556500964
 Rigidbody:
@@ -229,7 +229,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 14
   m_CollisionDetection: 2
 --- !u!59 &6937087355317949384
 HingeJoint:
@@ -247,8 +247,8 @@ HingeJoint:
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
   m_UseSpring: 1
   m_Spring:
-    spring: 100000
-    damper: 10
+    spring: 60000
+    damper: 6
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:

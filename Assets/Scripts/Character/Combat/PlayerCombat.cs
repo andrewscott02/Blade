@@ -50,7 +50,7 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    internal void Attack()
+    internal void Attack(AttackTypes attackType)
     {
         //TODO: Maybe queue up a combo attack when it's available?
         if (!_canAttack)
@@ -61,7 +61,7 @@ public class PlayerCombat : MonoBehaviour
         _guardController.SetCanResetGuard(false);
         _canAttack = false;
 
-        _animator.SetTrigger("Attack");
+        _animator.SetTrigger($"Attack-{attackType}");
     }
 
     internal void AnimateAttackDirection(float dampen)

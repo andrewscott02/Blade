@@ -14,4 +14,12 @@ public class AttackGuardChangeInfo : ScriptableObject
     [SerializeField]
     private Vector2 _guardDirection;
     public Vector2 GuardDirection => _guardDirection;
+
+    [SerializeField]
+    private float _canResetGuardDelay;
+    public float CanResetGuardDelay => _canResetGuardDelay;
+
+    [SerializeField]
+    private float _canResetGuardToBaseDelay;
+    public float CanResetGuardToBaseDelay => _canResetGuardToBaseDelay;
 }

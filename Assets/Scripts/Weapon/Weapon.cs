@@ -37,6 +37,8 @@ public class Weapon : MonoBehaviour, IHittable
 
     private void FixedUpdate()
     {
+        transform.position = transform.parent.position;
+        rb.centerOfMass = transform.parent.position - transform.position;
         CheckAllCollisions();
 
         _movementBase = _base.transform.position - LastPosBase;

@@ -40,6 +40,8 @@ public class PlayerManager : CharacterManager
     private InputActionReference _lockOnInput;
     [SerializeField]
     private InputActionReference _attackInput;
+    [SerializeField]
+    private InputActionReference _attackAltInput;
 
     [SerializeField]
     private CinemachineCamera _nonCombatCam;
@@ -74,6 +76,7 @@ public class PlayerManager : CharacterManager
         _sprintInput.action.canceled += CheckSprintCancelInput;
         _lockOnInput.action.performed += CheckLockOnInput;
         _attackInput.action.performed += CheckAttackInput;
+        _attackAltInput.action.performed += CheckAttackAltInput;
     }
 
     private void CheckCameraInput()
@@ -171,18 +174,31 @@ public class PlayerManager : CharacterManager
     {
         if (context.action.triggered)
         {
-            switch (CurrentState)
-            {
-                case CharacterStates.NonCombat:
-                    break;
-                case CharacterStates.Combat:
-                    _playerCombat.Attack();
-                    break;
-                case CharacterStates.Dead:
-                    break;
-                default:
-                    throw new System.Exception("State not defined");
-            }
+            AttemptAttack(AttackTypes.Default);
+        }
+    }
+
+    private void CheckAttackAltInput(InputAction.CallbackContext context)
+    {
+        if (context.action.triggered)
+        {
+            AttemptAttack(AttackTypes.Alt);
+        }
+    }
+
+    private void AttemptAttack(AttackTypes attackType)
+    {
+        switch (CurrentState)
+        {
+            case CharacterStates.NonCombat:
+                break;
+            case CharacterStates.Combat:
+                _playerCombat.Attack(attackType);
+                break;
+            case CharacterStates.Dead:
+                break;
+            default:
+                throw new System.Exception("State not defined");
         }
     }
 }
