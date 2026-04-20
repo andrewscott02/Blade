@@ -172,6 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
   rb: {fileID: 908934513556500964}
+  _collider: {fileID: 6714423828882684023}
   _hitLayers:
     serializedVersion: 2
     m_Bits: 128
@@ -181,8 +182,8 @@ MonoBehaviour:
   _tipStrength: 0
   _hitBoxSize: {x: 0.08, y: 1.2, z: 0.08}
   _hitDivisions: 7
-  forceTest: 3000000
-  forceTestSelf: 0
+  forceTest: 6000000
+  forceTestSelf: 6000000
 --- !u!65 &6714423828882684023
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -247,8 +248,8 @@ HingeJoint:
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
   m_UseSpring: 1
   m_Spring:
-    spring: 60000
-    damper: 6
+    spring: 40000
+    damper: 4
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:

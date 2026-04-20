@@ -78,6 +78,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Weapon_Sword
       objectReference: {fileID: 0}
+    - target: {fileID: 5519513494124899690, guid: 205ba877735f7db449cc0277b4bb259f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.241
+      objectReference: {fileID: 0}
     - target: {fileID: 6967905255338945411, guid: 205ba877735f7db449cc0277b4bb259f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

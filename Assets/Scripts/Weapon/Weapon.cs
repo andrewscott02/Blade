@@ -1,11 +1,18 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour, IHittable
 {
     [SerializeField]
     private Rigidbody rb;
+    [SerializeField]
+    private BoxCollider _collider;
+    private Dictionary<int, BoxCollider> _colliderByInterval;
+    private Dictionary<int, Vector3> _lastColliderPositionsByInterval;
+    private Vector3 _baseColliderSize;
+    private Vector3 _individualColliderSize;
 
     [SerializeField]
     private LayerMask _hitLayers;
@@ -35,11 +42,41 @@ public class Weapon : MonoBehaviour, IHittable
 
     private List<Collider> _hitColliders = new();
 
+    private void Start()
+    {
+        _baseColliderSize = _collider.size;
+        _individualColliderSize = _baseColliderSize;
+        _individualColliderSize.y = Vector3.Distance(_base.transform.position, _tip.transform.position) / _hitDivisions;
+
+        _colliderByInterval = new();
+        _lastColliderPositionsByInterval = new();
+
+        float interval = 1 / (float)_hitDivisions;
+
+        for (int i = 0; i < _hitDivisions; i++)
+        {
+            float t = interval * i;
+            BoxCollider col = transform.AddComponent<BoxCollider>();
+
+            col.center = Vector3.Lerp(_base.transform.localPosition, _tip.transform.localPosition, t);
+            col.size = _individualColliderSize;
+
+            _colliderByInterval.Add(i, col);
+            _lastColliderPositionsByInterval.Add(i, col.center);
+        }
+    }
+
+    //private void Update()
+    //{
+    //    TestCheckColliderSizes();
+    //}
+
     private void FixedUpdate()
     {
         transform.position = transform.parent.position;
         rb.centerOfMass = transform.parent.position - transform.position;
         CheckAllCollisions();
+        TestCheckColliderSizes();
 
         _movementBase = _base.transform.position - LastPosBase;
         _movementTip = _tip.transform.position - MovementTip;
@@ -48,6 +85,36 @@ public class Weapon : MonoBehaviour, IHittable
         LastPosTip = _tip.transform.position;
 
         _hitColliders = new();
+    }
+
+    private void TestCheckColliderSizes()
+    {
+        for (int i = 0; i < _hitDivisions; i++)
+        {
+            CheckColliderSize(i);
+            _lastColliderPositionsByInterval[i] = _colliderByInterval[i].bounds.center;
+        }
+    }
+
+    private void CheckColliderSize(int i)
+    {
+        Vector3 centerStart = _lastColliderPositionsByInterval[i];
+        Vector3 centerEnd = _colliderByInterval[i].bounds.center;
+        //Vector3 halfExtents = new(_hitBoxSize.x, Vector3.Distance(LastPosBase, LastPosTip) / _hitDivisions, _hitBoxSize.z);
+
+        Vector3 dir = centerEnd - centerStart;
+
+        Vector3 halfExtents = _individualColliderSize + new Vector3(Mathf.Abs(dir.x), Mathf.Abs(dir.y), Mathf.Abs(dir.z));
+        float distance = Vector3.Distance(centerStart, centerEnd);
+
+        Quaternion orientation = dir != Vector3.zero
+            ? Quaternion.LookRotation(dir, transform.up)
+            : _base.transform.rotation;
+
+        _colliderByInterval[i].size = halfExtents;
+
+        //DebugBoxCast.SimpleDrawBoxCast(centerStart, halfExtents, dir, orientation, distance, Color.red);
+        //return Physics.BoxCastAll(centerStart, halfExtents, dir, orientation, distance, _hitLayers);
     }
 
     private void CheckAllCollisions()
