@@ -42,7 +42,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6773138914629933757}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48db98e3fbfc8de44ba0b00184360a5e, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d6594455fc570f49a917369a66f9269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   _characterContainer: {fileID: 313183636584323590}
@@ -137,7 +137,7 @@ MonoBehaviour:
   _animDampenCombat: 0.1
   _combatAnimThreshold: 0.25
   _inputThreshold: 0.25
-  _cameraObject: {fileID: 0}
+  _cameraObject: {fileID: 5518963225614422932}
 --- !u!114 &3144688145751727137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,12 +147,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6773138914629933757}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c509a052deca8240960394254dfb7ed, type: 3}
+  m_Script: {fileID: 11500000, guid: cc299a384def2e44c9edcc7f06850cea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCamera
-  _rotateModifiers: {x: 1, y: 1}
+  _rotateModifiers: {x: 0.6, y: 0.6}
   _rotationBounds: {x: 0, y: 85}
-  _cameraLookTarget: {fileID: 302314586753249585}
+  _cameraLookTarget: {fileID: 5518963225614422932}
   _camXRotOffet: 45
 --- !u!1001 &2629845654354842655
 PrefabInstance:
@@ -220,11 +220,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 4342291341417305227}
   m_SourcePrefab: {fileID: 100100000, guid: e56c45f5ee0a57447bfb377517683fb6, type: 3}
---- !u!1 &302314586753249585 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2327550889414649134, guid: e56c45f5ee0a57447bfb377517683fb6, type: 3}
-  m_PrefabInstance: {fileID: 2629845654354842655}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &313183636584323590 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2317014510570704409, guid: e56c45f5ee0a57447bfb377517683fb6, type: 3}
@@ -273,7 +268,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   _initialState: 1
-  _currentState: 0
   _moveInput: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _sprintInput: {fileID: -7471211009204490832, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _cameraInput: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
@@ -290,6 +284,11 @@ Transform:
 --- !u!1 &5450900038517325507 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8059871049016158940, guid: e56c45f5ee0a57447bfb377517683fb6, type: 3}
+  m_PrefabInstance: {fileID: 2629845654354842655}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5518963225614422932 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7559394643433867147, guid: e56c45f5ee0a57447bfb377517683fb6, type: 3}
   m_PrefabInstance: {fileID: 2629845654354842655}
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &7983470493890174124 stripped

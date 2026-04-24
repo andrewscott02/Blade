@@ -200,7 +200,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2353046908670478269}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 383362ad71ae76743b89ec287ca3ecb4, type: 3}
+  m_Script: {fileID: 11500000, guid: a9416855f3e1abf458578b60000f8223, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponAttach
   _weaponPrefab: {fileID: 6480290155324800683, guid: 65686b23e35b9884b8bc2fe2ef72f308, type: 3}

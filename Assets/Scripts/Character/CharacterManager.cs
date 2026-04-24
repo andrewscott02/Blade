@@ -4,7 +4,7 @@ public class CharacterManager : MonoBehaviour
 {
     [SerializeField]
     protected CharacterStates _initialState = CharacterStates.NonCombat;
-    public CharacterStates _currentState;
+    protected CharacterStates _currentState;
     public CharacterStates CurrentState
     {
         get
