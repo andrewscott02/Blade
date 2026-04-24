@@ -193,6 +193,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: Attack-Default
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Telegraph
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7533336036371286336}
   m_Solo: 0
@@ -394,7 +397,7 @@ BlendTree:
   m_Name: Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: f27d239b323f4b4409994d82dc9aa57f, type: 2}
+    m_Motion: {fileID: 7400000, guid: 8fa1e2cfe8e4eda478e768463393c182, type: 2}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -402,7 +405,7 @@ BlendTree:
     m_DirectBlendParameter: MoveMagnitude
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: f13fd8bd912564449aa902806c7c9124, type: 2}
+    m_Motion: {fileID: 7400000, guid: 90a0883c91672cc45a202cbaa278bc36, type: 2}
     m_Threshold: 0.125
     m_Position: {x: 0, y: 1}
     m_TimeScale: 1
@@ -410,7 +413,7 @@ BlendTree:
     m_DirectBlendParameter: MoveMagnitude
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 594233ca2f1d9844b8bcf30ceac20a66, type: 2}
+    m_Motion: {fileID: 7400000, guid: 61929804a09b07f41966aaa1134ff4d6, type: 2}
     m_Threshold: 0.25
     m_Position: {x: 0.75, y: 0.75}
     m_TimeScale: 1
@@ -418,7 +421,7 @@ BlendTree:
     m_DirectBlendParameter: MoveMagnitude
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: db156b7825fad1144b37f64f7da54241, type: 2}
+    m_Motion: {fileID: 7400000, guid: e0b8fb8ac6e8f8042adda81777296dbd, type: 2}
     m_Threshold: 0.375
     m_Position: {x: 1, y: 0}
     m_TimeScale: 1
@@ -426,7 +429,7 @@ BlendTree:
     m_DirectBlendParameter: MoveMagnitude
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: aa6c4d6269993cf4ab0ecae0418e8c95, type: 2}
+    m_Motion: {fileID: 7400000, guid: 6a19dd689bab7d949a601f890d85272f, type: 2}
     m_Threshold: 0.5
     m_Position: {x: 0.75, y: -0.75}
     m_TimeScale: 1
@@ -434,7 +437,7 @@ BlendTree:
     m_DirectBlendParameter: MoveMagnitude
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 466627a75a468fd4a8a297fb940e8ad5, type: 2}
+    m_Motion: {fileID: 7400000, guid: a2eb112b294cb9d40be03581e5b9bfe9, type: 2}
     m_Threshold: 0.625
     m_Position: {x: 0, y: -1}
     m_TimeScale: 1
@@ -442,7 +445,7 @@ BlendTree:
     m_DirectBlendParameter: MoveMagnitude
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 0a8741361d4820e48a733e1bded62996, type: 2}
+    m_Motion: {fileID: 7400000, guid: 676ab24a22badbc4087780a82bd786bd, type: 2}
     m_Threshold: 0.75
     m_Position: {x: -0.75, y: -0.75}
     m_TimeScale: 1
@@ -450,7 +453,7 @@ BlendTree:
     m_DirectBlendParameter: MoveMagnitude
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 7ec572d6642307d429ee9313d2f9b831, type: 2}
+    m_Motion: {fileID: 7400000, guid: 269f14c7540591f4e8e1fa1c9b9e95ea, type: 2}
     m_Threshold: 0.875
     m_Position: {x: -1, y: 0}
     m_TimeScale: 1
@@ -458,7 +461,7 @@ BlendTree:
     m_DirectBlendParameter: MoveMagnitude
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: c1d92b0edeef6674fada36e53b349cdb, type: 2}
+    m_Motion: {fileID: 7400000, guid: af2f76d5c4ab3da48b0b05ea427e824d, type: 2}
     m_Threshold: 1
     m_Position: {x: -0.75, y: 0.75}
     m_TimeScale: 1
@@ -1214,13 +1217,13 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: Attack-Default
-    m_Type: 9
+  - m_Name: Telegraph
+    m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
-    m_DefaultBool: 0
+    m_DefaultBool: 1
     m_Controller: {fileID: 9100000}
-  - m_Name: Telegraph-Default
+  - m_Name: Attack-Default
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -1486,7 +1489,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Telegraph-Default
+    m_ConditionEvent: Attack-Default
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: Telegraph
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -997081259885982577}
@@ -2038,9 +2044,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.1
-  m_TransitionOffset: 0
-  m_ExitTime: 0.9
+  m_TransitionDuration: 0.55
+  m_TransitionOffset: 0.15
+  m_ExitTime: 0.7
   m_HasExitTime: 1
   m_HasFixedDuration: 0
   m_InterruptionSource: 0

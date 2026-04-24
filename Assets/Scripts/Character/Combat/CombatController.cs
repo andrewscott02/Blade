@@ -10,6 +10,8 @@ public class CombatController : MonoBehaviour
     private CharacterAnimatorEventsListener _animatorEvents;
     [SerializeField]
     private float _attackSpeed = 1;
+    [SerializeField]
+    private bool _telegraphAttacks = true;
 
     private bool _canAttack;
 
@@ -33,6 +35,7 @@ public class CombatController : MonoBehaviour
         _guardController = GetComponent<GuardDirectionController>();
         _guardController.Init(_animator);
         _animator.SetFloat("AttackSpeed", _attackSpeed);
+        _animator.SetBool("Telegraph", _telegraphAttacks);
     }
 
     internal void SetGuard(Vector2 input)

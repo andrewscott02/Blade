@@ -178,7 +178,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
   _animator: {fileID: 5383466961676929203}
   _animatorEvents: {fileID: 4800786654139546643}
-  _attackSpeed: 0.8
+  _attackSpeed: 0.7
+  _telegraphAttacks: 1
 --- !u!114 &2082828887014490604
 MonoBehaviour:
   m_ObjectHideFlags: 0
