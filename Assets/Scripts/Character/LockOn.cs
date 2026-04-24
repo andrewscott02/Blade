@@ -48,7 +48,7 @@ public class LockOn : MonoBehaviour
 
         foreach (var target in FindObjectsByType<LockOnTarget>(FindObjectsSortMode.None))
         {
-            if (Vector3.Distance(target.transform.position, transform.position) < _lockOnRadius)
+            if (target.gameObject != this.gameObject && Vector3.Distance(target.transform.position, transform.position) < _lockOnRadius)
             {
                 yield return target;
             }
