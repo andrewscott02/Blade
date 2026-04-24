@@ -702,6 +702,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Target
       objectReference: {fileID: 0}
+    - target: {fileID: 7176705097446025904, guid: becc3fc668459614d8f39238d07e469e, type: 3}
+      propertyPath: guardPos.y
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

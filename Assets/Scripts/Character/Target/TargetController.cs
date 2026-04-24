@@ -4,9 +4,14 @@ public class TargetController : CharacterManager
 {
     private CharacterMovement _characterMovement;
 
+    [SerializeField]
+    private Vector2 guardPos;
+
     private void Start()
     {
         LockOn();
+
+        InvokeRepeating("Attack", 5f, 5f);
     }
 
     private void LockOn()
@@ -21,5 +26,15 @@ public class TargetController : CharacterManager
 
             //_combatCam.Prioritize();
         }
+    }
+
+    private void FixedUpdate()
+    {
+        _combat.SetGuard(guardPos);
+    }
+
+    private void Attack()
+    {
+        _combat.Attack(AttackTypes.Default, animSpeed: 0.75f);
     }
 }

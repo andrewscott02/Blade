@@ -8,6 +8,8 @@ public class CombatController : MonoBehaviour
     private Animator _animator;
     [SerializeField]
     private CharacterAnimatorEventsListener _animatorEvents;
+    [SerializeField]
+    private float _attackSpeed = 1;
 
     private bool _canAttack;
 
@@ -30,6 +32,7 @@ public class CombatController : MonoBehaviour
 
         _guardController = GetComponent<GuardDirectionController>();
         _guardController.Init(_animator);
+        _animator.SetFloat("AttackSpeed", _attackSpeed);
     }
 
     internal void SetGuard(Vector2 input)
@@ -52,7 +55,7 @@ public class CombatController : MonoBehaviour
         }
     }
 
-    internal void Attack(AttackTypes attackType)
+    internal void Attack(AttackTypes attackType, float animSpeed = 1f)
     {
         //TODO: Maybe queue up a combo attack when it's available?
         if (!_canAttack)
