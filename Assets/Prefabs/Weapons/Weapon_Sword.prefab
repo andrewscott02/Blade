@@ -74,6 +74,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 908934513556500964, guid: 205ba877735f7db449cc0277b4bb259f, type: 3}
+      propertyPath: m_LinearDamping
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 908934513556500964, guid: 205ba877735f7db449cc0277b4bb259f, type: 3}
+      propertyPath: m_AngularDamping
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 3069274786515771988, guid: 205ba877735f7db449cc0277b4bb259f, type: 3}
       propertyPath: m_Name
       value: Weapon_Sword
@@ -121,6 +129,30 @@ PrefabInstance:
     - target: {fileID: 6967905255338945411, guid: 205ba877735f7db449cc0277b4bb259f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7883932110858368615, guid: 205ba877735f7db449cc0277b4bb259f, type: 3}
+      propertyPath: m_Mass
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 7883932110858368615, guid: 205ba877735f7db449cc0277b4bb259f, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7883932110858368615, guid: 205ba877735f7db449cc0277b4bb259f, type: 3}
+      propertyPath: m_Constraints
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7883932110858368615, guid: 205ba877735f7db449cc0277b4bb259f, type: 3}
+      propertyPath: m_LinearDamping
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 7883932110858368615, guid: 205ba877735f7db449cc0277b4bb259f, type: 3}
+      propertyPath: m_AngularDamping
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 7883932110858368615, guid: 205ba877735f7db449cc0277b4bb259f, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8176617741792986486, guid: 205ba877735f7db449cc0277b4bb259f, type: 3}
       propertyPath: m_IsTrigger
