@@ -1,9 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class PlayerLockOn : MonoBehaviour
+public class LockOn : MonoBehaviour
 {
     [SerializeField]
     private float _lockOnRadius;

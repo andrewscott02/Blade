@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 6714423828882684023}
   - component: {fileID: 908934513556500964}
   - component: {fileID: 6937087355317949384}
+  - component: {fileID: 2269737132416545625}
   m_Layer: 7
   m_Name: Weapon
   m_TagString: Weapon
@@ -180,7 +181,7 @@ MonoBehaviour:
   _tip: {fileID: 5269727336942892017}
   _baseStrength: 0
   _tipStrength: 0
-  _hitBoxSize: {x: 0.08, y: 1.2, z: 0.08}
+  _hitBoxSize: {x: 0.06, y: 1.2, z: 0.06}
   _hitDivisions: 7
   forceTest: 6000000
   forceTestSelf: 6000000
@@ -191,7 +192,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9099422744485833541}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 0908421eb2d18dd46ac4a2ec42ff148c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -248,8 +249,8 @@ HingeJoint:
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
   m_UseSpring: 1
   m_Spring:
-    spring: 40000
-    damper: 4
+    spring: 20000
+    damper: 8
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -271,3 +272,26 @@ HingeJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!136 &2269737132416545625
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9099422744485833541}
+  m_Material: {fileID: 13400000, guid: 0908421eb2d18dd46ac4a2ec42ff148c, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.05
+  m_Height: 1.25
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.6, z: 0}

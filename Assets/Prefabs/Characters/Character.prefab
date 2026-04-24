@@ -32,160 +32,6 @@ Transform:
   - {fileID: 8162356173669966721}
   m_Father: {fileID: 8840195669231069253}
   m_LocalEulerAnglesHint: {x: 6.561, y: 2.388, z: 76.265}
---- !u!1 &1723506597104044700
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5903734617324937308}
-  - component: {fileID: 5645487654826474674}
-  - component: {fileID: 1728230756228106660}
-  m_Layer: 0
-  m_Name: MovementComponent
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5903734617324937308
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1723506597104044700}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1311071749245064038}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5645487654826474674
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1723506597104044700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48db98e3fbfc8de44ba0b00184360a5e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  _characterContainer: {fileID: 2317014510570704409}
-  _minMoveSpeed: 1.2
-  _maxMoveSpeed: 6
-  _maxSprintSpeed: 9
-  _maxCombatSpeed: 4
-  _maxAccelerationByCurrentSpeed:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.4
-      inSlope: -0.11188743
-      outSlope: -0.11188743
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.07010015
-    - serializedVersion: 3
-      time: 6
-      value: 0.04
-      inSlope: -0.0053292704
-      outSlope: -0.0053292704
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.1216023
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _inputThreshold: 0.25
-  _cameraObject: {fileID: 7559394643433867147}
-  _characterBody: {fileID: 8059871049016158940}
-  _animController: {fileID: 5383466961676929203}
-  _nonCombatSpeedToAnimationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0.11111111
-      outSlope: 0.11111111
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 9
-      value: 1
-      inSlope: 0.11111111
-      outSlope: 0.11111111
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _combatSpeedToAnimationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -9
-      value: -1
-      inSlope: 0.11111111
-      outSlope: 0.11111111
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0.11111111
-      outSlope: 0.11111111
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 9
-      value: 1
-      inSlope: 0.11111111
-      outSlope: 0.11111111
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _animDampen: 0.2
-  _animDampenCombat: 0.1
-  _combatAnimThreshold: 0.25
---- !u!114 &1728230756228106660
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1723506597104044700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c509a052deca8240960394254dfb7ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerCamera
-  _rotateModifiers: {x: 1, y: 1}
-  _rotationBounds: {x: 0, y: 85}
-  _cameraLookTarget: {fileID: 7559394643433867147}
-  _camXRotOffet: 45
 --- !u!1 &2145323132283060983
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,10 +72,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1311071749245064038}
-  - component: {fileID: 6734033715884938381}
-  - component: {fileID: 7500790793052098938}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -251,61 +95,8 @@ Transform:
   - {fileID: 7246778508391772262}
   - {fileID: 7807833850870251586}
   - {fileID: 7188968194085587907}
-  - {fileID: 5903734617324937308}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6734033715884938381
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2317014510570704409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
-  m_Actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
---- !u!114 &7500790793052098938
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2317014510570704409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc4ceba525236d94d9e366696f0858f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  _initialState: 1
-  _currentState: 0
-  _moveInput: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  _sprintInput: {fileID: -7471211009204490832, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  _cameraInput: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  _lockOnInput: {fileID: -4428758209736577613, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  _attackInput: {fileID: 1120369429361536294, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  _attackAltInput: {fileID: 3110762874162212108, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  _nonCombatCam: {fileID: 0}
-  _combatCam: {fileID: 0}
 --- !u!1 &2327550889414649134
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,7 +172,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2353046908670478269}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dae502237fc0aa24a80e968cd261bf62, type: 3}
+  m_Script: {fileID: 11500000, guid: 5b6bdd51278f2ad49ba4a218197d2605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
   _animator: {fileID: 5383466961676929203}
@@ -400,7 +191,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GuardDirectionController
   _minGuardChangeThreshold: 0.05
   _animDampenGuard: 0.05
-  _resetToBaseGuardAfterAttackingDelay: 1.75
 --- !u!114 &2713288630017502178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -713,8 +503,8 @@ MonoBehaviour:
     IKValueRotation: 0.8
   - State: 0
     IKTarget: {fileID: 8162356173669966721}
-    IKValuePosition: 0.8
-    IKValueRotation: 0.8
+    IKValuePosition: 1
+    IKValueRotation: 1
 --- !u!4 &8840195669231069253 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1852576806548013000, guid: a39d1cda70d4fe44e942eebca3e857a5, type: 3}

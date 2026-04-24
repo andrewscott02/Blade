@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class PlayerRotation
+public class CharacterRotation
 {
     private GameObject _characterBody;
 
-    public PlayerRotation(GameObject characterBody)
+    public CharacterRotation(GameObject characterBody)
     {
         _characterBody = characterBody;
     }

@@ -4,31 +4,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerManager : CharacterManager
 {
-    [SerializeField]
-    private CharacterStates _initialState = CharacterStates.NonCombat;
-    public CharacterStates _currentState;
-    public CharacterStates CurrentState
-    {
-        get 
-        { 
-            return _currentState;
-        }
-
-        private set
-        {
-            _currentState = value;
-            if (CharacterStateChange.GetInvocationList().Length > 0)
-                CharacterStateChange(_currentState);
-        }
-    }
-
-    public delegate void CharacterStateChangeDelegate(CharacterStates state);
-    public CharacterStateChangeDelegate CharacterStateChange;
-
     private PlayerMovement _playerMovement;
     private PlayerCamera _playerCamera;
-    private PlayerCombat _playerCombat;
-    private PlayerLockOn _playerLockOn;
+    private CombatController _playerCombat;
+    private LockOn _playerLockOn;
 
     [SerializeField]
     private InputActionReference _moveInput;
@@ -48,16 +27,17 @@ public class PlayerManager : CharacterManager
     [SerializeField]
     private CinemachineCamera _combatCam;
 
-    private void Awake()
+    protected override void Awake()
     {
-        CurrentState = _initialState;
+        base.Awake();
         _playerMovement = GetComponentInChildren<PlayerMovement>();
         _playerCamera = GetComponentInChildren<PlayerCamera>();
-        _playerCombat = GetComponentInChildren<PlayerCombat>();
-        _playerLockOn = GetComponentInChildren<PlayerLockOn>();
+        _playerCombat = GetComponentInChildren<CombatController>();
+        _playerLockOn = GetComponentInChildren<LockOn>();
 
         AssignInputs();
     }
+
     private void Start()
     {
         _nonCombatCam.Prioritize();

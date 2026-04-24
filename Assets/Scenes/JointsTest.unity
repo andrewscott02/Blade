@@ -127,22 +127,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 142173176835814238, guid: 65686b23e35b9884b8bc2fe2ef72f308, type: 3}
-      propertyPath: forceTest
-      value: 1500000
-      objectReference: {fileID: 0}
-    - target: {fileID: 142173176835814238, guid: 65686b23e35b9884b8bc2fe2ef72f308, type: 3}
-      propertyPath: forceTestSelf
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 950673356774815674, guid: 65686b23e35b9884b8bc2fe2ef72f308, type: 3}
-      propertyPath: m_Name
-      value: Weapon2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1383626076375813943, guid: 65686b23e35b9884b8bc2fe2ef72f308, type: 3}
-      propertyPath: m_Spring.spring
-      value: 500000
-      objectReference: {fileID: 0}
     - target: {fileID: 1424303301473843068, guid: 65686b23e35b9884b8bc2fe2ef72f308, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.73196
@@ -186,18 +170,6 @@ PrefabInstance:
     - target: {fileID: 6480290155324800683, guid: 65686b23e35b9884b8bc2fe2ef72f308, type: 3}
       propertyPath: m_Name
       value: Weapon_Sword (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 9217729034504187163, guid: 65686b23e35b9884b8bc2fe2ef72f308, type: 3}
-      propertyPath: m_Mass
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 9217729034504187163, guid: 65686b23e35b9884b8bc2fe2ef72f308, type: 3}
-      propertyPath: m_LinearDamping
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 9217729034504187163, guid: 65686b23e35b9884b8bc2fe2ef72f308, type: 3}
-      propertyPath: m_AngularDamping
-      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -671,10 +643,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 950673356774815674, guid: 65686b23e35b9884b8bc2fe2ef72f308, type: 3}
-      propertyPath: m_Name
-      value: Weapon1
-      objectReference: {fileID: 0}
     - target: {fileID: 1424303301473843068, guid: 65686b23e35b9884b8bc2fe2ef72f308, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.7
@@ -689,7 +657,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1424303301473843068, guid: 65686b23e35b9884b8bc2fe2ef72f308, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.89879405
+      value: 0.9063079
       objectReference: {fileID: 0}
     - target: {fileID: 1424303301473843068, guid: 65686b23e35b9884b8bc2fe2ef72f308, type: 3}
       propertyPath: m_LocalRotation.x
@@ -697,11 +665,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1424303301473843068, guid: 65686b23e35b9884b8bc2fe2ef72f308, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1424303301473843068, guid: 65686b23e35b9884b8bc2fe2ef72f308, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.43837118
+      value: -0.42261827
       objectReference: {fileID: 0}
     - target: {fileID: 1424303301473843068, guid: 65686b23e35b9884b8bc2fe2ef72f308, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -713,7 +681,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1424303301473843068, guid: 65686b23e35b9884b8bc2fe2ef72f308, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -52
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6480290155324800683, guid: 65686b23e35b9884b8bc2fe2ef72f308, type: 3}
       propertyPath: m_Name

@@ -9,7 +9,7 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public static class GameUtils
 {
-    public static Dictionary<CharacterStates, GameObject> AsDictionary(this WeaponAttachPoint[] weaponAttachPoints)
+    public static Dictionary<CharacterStates, GameObject> AsDictionary(this AttachPointInfo[] weaponAttachPoints)
         => weaponAttachPoints.ToDictionary(kvp => kvp.State, kvp => kvp.AttachPoint);
 
     public static Vector2 Rotate(this Vector2 v, float degrees)

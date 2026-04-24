@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponAttach : MonoBehaviour
+public class AttachPoint : MonoBehaviour
 {
     [SerializeField]
     private Object _weaponPrefab;
@@ -9,7 +9,7 @@ public class WeaponAttach : MonoBehaviour
     private GameObject _weaponInstance;
 
     [SerializeField]
-    private WeaponAttachPoint[] _attachPoints;
+    private AttachPointInfo[] _attachPoints;
     private Dictionary<CharacterStates, GameObject> _attachPointsByState;
 
     [SerializeField]
@@ -40,11 +40,4 @@ public class WeaponAttach : MonoBehaviour
         CurrentState = state;
         AttachWeapon();
     }
-}
-
-[System.Serializable]
-public struct WeaponAttachPoint
-{
-    public CharacterStates State;
-    public GameObject AttachPoint;
 }
