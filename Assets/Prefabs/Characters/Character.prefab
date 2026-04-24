@@ -141,6 +141,7 @@ GameObject:
   - component: {fileID: 2082828887014490604}
   - component: {fileID: 2713288630017502178}
   - component: {fileID: 4756999018999937706}
+  - component: {fileID: 2802540725504111388}
   m_Layer: 0
   m_Name: CombatComponent
   m_TagString: Untagged
@@ -228,6 +229,18 @@ MonoBehaviour:
     m_Bits: 0
   drawGizmos: 0
   _animController: {fileID: 5383466961676929203}
+--- !u!114 &2802540725504111388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2353046908670478269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 690bdceb7485f76408ab95b458b39f72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LockOnTarget
 --- !u!1 &2409149435430643159
 GameObject:
   m_ObjectHideFlags: 0

@@ -23,7 +23,7 @@ public class AttachPoint : MonoBehaviour
         CurrentState = _initialState;
         AttachWeapon();
 
-        GetComponentInParent<PlayerManager>().CharacterStateChange += SetState;
+        GetComponentInParent<CharacterManager>().CharacterStateChange += SetState;
     }
 
     [ContextMenu("Create Weapon")]

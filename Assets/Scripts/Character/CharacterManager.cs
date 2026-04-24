@@ -15,7 +15,7 @@ public class CharacterManager : MonoBehaviour
         protected set
         {
             _currentState = value;
-            if (CharacterStateChange.GetInvocationList().Length > 0)
+            if (CharacterStateChange?.GetInvocationList().Length > 0)
                 CharacterStateChange(_currentState);
         }
     }
@@ -23,8 +23,14 @@ public class CharacterManager : MonoBehaviour
     public delegate void CharacterStateChangeDelegate(CharacterStates state);
     public CharacterStateChangeDelegate CharacterStateChange;
 
+    protected CombatController _combat;
+    protected LockOn _lockOn;
+
     protected virtual void Awake()
     {
         CurrentState = _initialState;
+
+        _combat = GetComponentInChildren<CombatController>();
+        _lockOn = GetComponentInChildren<LockOn>();
     }
 }

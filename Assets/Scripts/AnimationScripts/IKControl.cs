@@ -19,7 +19,7 @@ public class IKControl : MonoBehaviour
     {
         animator = GetComponent<Animator>();
 
-        GetComponentInParent<PlayerManager>().CharacterStateChange += SetCurrentState;
+        GetComponentInParent<CharacterManager>().CharacterStateChange += SetCurrentState;
     }
 
     internal void SetActive(bool active)

@@ -1,16 +1,25 @@
 using UnityEngine;
 
-public class TargetController : MonoBehaviour
+public class TargetController : CharacterManager
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private CharacterMovement _characterMovement;
+
+    private void Start()
     {
-        
+        LockOn();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void LockOn()
     {
-        
+        if (_lockOn.TryGetLockOnTarget(out LockOnTarget target))
+        {
+            CurrentState = CharacterStates.Combat;
+
+            //_characterMovement.SetSprinting(false);
+            _lockOn.SetTarget(target);
+            _combat.SetAnimationState(CurrentState);
+
+            //_combatCam.Prioritize();
+        }
     }
 }

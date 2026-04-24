@@ -6,8 +6,6 @@ public class PlayerManager : CharacterManager
 {
     private PlayerMovement _playerMovement;
     private PlayerCamera _playerCamera;
-    private CombatController _playerCombat;
-    private LockOn _playerLockOn;
 
     [SerializeField]
     private InputActionReference _moveInput;
@@ -32,8 +30,6 @@ public class PlayerManager : CharacterManager
         base.Awake();
         _playerMovement = GetComponentInChildren<PlayerMovement>();
         _playerCamera = GetComponentInChildren<PlayerCamera>();
-        _playerCombat = GetComponentInChildren<CombatController>();
-        _playerLockOn = GetComponentInChildren<LockOn>();
 
         AssignInputs();
     }
@@ -69,7 +65,7 @@ public class PlayerManager : CharacterManager
                 _playerCamera.RotateCam(inputValue);
                 break;
             case CharacterStates.Combat:
-                _playerCombat.SetGuard(inputValue);
+                _combat.SetGuard(inputValue);
                 break;
             case CharacterStates.Dead:
                 break;
@@ -116,13 +112,13 @@ public class PlayerManager : CharacterManager
 
     private void LockOn()
     {
-        if (_playerLockOn.TryGetLockOnTarget(out LockOnTarget target))
+        if (_lockOn.TryGetLockOnTarget(out LockOnTarget target))
         {
             CurrentState = CharacterStates.Combat;
 
             _playerMovement.SetSprinting(false);
-            _playerLockOn.SetTarget(target);
-            _playerCombat.SetAnimationState(CurrentState);
+            _lockOn.SetTarget(target);
+            _combat.SetAnimationState(CurrentState);
 
             _combatCam.Prioritize();
         }
@@ -132,8 +128,8 @@ public class PlayerManager : CharacterManager
     {
         CurrentState = CharacterStates.NonCombat;
 
-        _playerLockOn.UnlockTarget();
-        _playerCombat.SetAnimationState(CurrentState);
+        _lockOn.UnlockTarget();
+        _combat.SetAnimationState(CurrentState);
 
         _nonCombatCam.Prioritize();
     }
@@ -142,11 +138,11 @@ public class PlayerManager : CharacterManager
     {
         if (CurrentState == CharacterStates.Combat)
         {
-            if (_playerLockOn.CurrentTarget == null)
+            if (_lockOn.CurrentTarget == null)
                 throw new System.Exception("Current target cannot be null in combat mode");
 
-            _playerCamera.LookAtTarget(_playerLockOn.CurrentTarget);
-            _playerMovement.RotateCharacterToTarget(_playerLockOn.CurrentTarget.transform.position);
+            _playerCamera.LookAtTarget(_lockOn.CurrentTarget);
+            _playerMovement.RotateCharacterToTarget(_lockOn.CurrentTarget.transform.position);
         }
     }
 
@@ -173,7 +169,7 @@ public class PlayerManager : CharacterManager
             case CharacterStates.NonCombat:
                 break;
             case CharacterStates.Combat:
-                _playerCombat.Attack(attackType);
+                _combat.Attack(attackType);
                 break;
             case CharacterStates.Dead:
                 break;

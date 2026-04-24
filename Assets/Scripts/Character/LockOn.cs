@@ -34,13 +34,21 @@ public class LockOn : MonoBehaviour
 
     private IEnumerable<LockOnTarget> GetAllLockOnTargetsInRange()
     {
-        Collider[] overlappingColliders = Physics.OverlapSphere(transform.position, _lockOnRadius);
+        //Collider[] overlappingColliders = Physics.OverlapSphere(transform.position, _lockOnRadius);
 
-        foreach (Collider col in overlappingColliders)
+        //foreach (Collider col in overlappingColliders)
+        //{
+        //    LockOnTarget target = col.GetComponent<LockOnTarget>();
+
+        //    if (target != null && target.gameObject != this.gameObject)
+        //    {
+        //        yield return target;
+        //    }
+        //}
+
+        foreach (var target in FindObjectsByType<LockOnTarget>(FindObjectsSortMode.None))
         {
-            LockOnTarget target = col.GetComponent<LockOnTarget>();
-
-            if (target != null)
+            if (Vector3.Distance(target.transform.position, transform.position) < _lockOnRadius)
             {
                 yield return target;
             }
