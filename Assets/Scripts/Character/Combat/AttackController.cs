@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class AttackController : MonoBehaviour
@@ -6,35 +7,37 @@ public class AttackController : MonoBehaviour
     private Animator _animator;
     private GuardDirectionController _guardController;
     private LockOn _lockOn;
+    private Weapon _weapon;
 
     [SerializeField]
     private float _attackSpeed = 1;
     [SerializeField]
     private bool _telegraphAttacks = true;
 
-    public bool _canAttack { get; private set; }
+    public bool CanAttack { get; private set; }
 
     private Vector2 _attackDirection;
-
 
     internal void Init(Animator animator, CharacterAnimatorEventsListener animatorEvents, GuardDirectionController guardController)
     {
         _animator = animator;
         _guardController = guardController;
-        LockOn _lockOn = GetComponent<LockOn>();
+        _lockOn = GetComponent<LockOn>();
+        //_weapon = GetComponent<AttachPoint>().WeaponInstance;
 
         _animator.SetFloat("AttackSpeed", _attackSpeed);
         _animator.SetBool("Telegraph", _telegraphAttacks);
+        animatorEvents.AttackStartDelegate += StartAttackLogic;
         animatorEvents.ResetAttackDelegate += ResetCanAttack;
 
-        _canAttack = true;
+        CanAttack = true;
         _attackDirection = Vector2.zero;
     }
 
     internal void Attack(AttackTypes attackType)
     {
         //TODO: Maybe queue up a combo attack when it's available?
-        if (!_canAttack)
+        if (!CanAttack)
             return;
 
         _attackDirection = _guardController.GuardDirection;
@@ -43,7 +46,7 @@ public class AttackController : MonoBehaviour
         _guardController.StopResetGuardToBaseCoroutine();
         _guardController.SetCanChangeGuard(false);
         _guardController.SetCanResetGuard(false);
-        _canAttack = false;
+        CanAttack = false;
 
         _animator.SetTrigger($"Attack-{attackType}");
     }
@@ -54,8 +57,16 @@ public class AttackController : MonoBehaviour
         _animator.SetFloat("AttackY", _attackDirection.y, dampen, Time.deltaTime);
     }
 
+    private void StartAttackLogic(AttackHitInfo hitInfo)
+    {
+        //_lockOn.BeingAttacked(this);
+
+        _weapon.StartAttack(hitInfo);
+    }
+
     private void ResetCanAttack()
     {
-        _canAttack = true;
+        CanAttack = true;
+        _weapon.EndAttack();
     }
 }

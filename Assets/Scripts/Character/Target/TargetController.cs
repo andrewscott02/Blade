@@ -11,7 +11,7 @@ public class TargetController : CharacterManager
     {
         LockOn();
 
-        InvokeRepeating("Attack", 5f, 5f);
+        InvokeRepeating("Attack", 2.5f, 2.5f);
     }
 
     private void LockOn()

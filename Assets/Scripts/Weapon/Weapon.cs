@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -8,10 +9,13 @@ public class Weapon : MonoBehaviour, IHittable
     [SerializeField]
     private Rigidbody rb;
     [SerializeField]
-    private BoxCollider _collider;
+    private BoxCollider _boxCollider;
+    [SerializeField]
+    private CapsuleCollider _capsuleCollider;
+    private float _baseCapsuleRadius;
     private Dictionary<int, BoxCollider> _colliderByInterval;
     private Dictionary<int, Vector3> _lastColliderPositionsByInterval;
-    private Vector3 _baseColliderSize;
+    private Vector3 _baseBoxColliderSize;
     private Vector3 _individualColliderSize;
 
     [SerializeField]
@@ -31,6 +35,9 @@ public class Weapon : MonoBehaviour, IHittable
     [SerializeField]
     private int _hitDivisions = 5;
 
+    //[SerializeField]
+    //private AnimationCurve _capsuleWidthBySpeed = AnimationCurve.Constant(0, 10f, 1);
+
     public Vector3 LastPosBase { get; private set; }
     public Vector3 LastPosTip { get; private set; }
 
@@ -49,8 +56,9 @@ public class Weapon : MonoBehaviour, IHittable
 
     private void Start()
     {
-        _baseColliderSize = _collider.size;
-        _individualColliderSize = _baseColliderSize;
+        _baseBoxColliderSize = _boxCollider.size;
+        _baseCapsuleRadius = _capsuleCollider.radius;
+        _individualColliderSize = _baseBoxColliderSize;
         _individualColliderSize.y = Vector3.Distance(_base.transform.position, _tip.transform.position) / _hitDivisions;
 
         _colliderByInterval = new();
@@ -74,19 +82,10 @@ public class Weapon : MonoBehaviour, IHittable
     internal void Init(GameObject ikHandleNonCombat, GameObject ikHandleCombat)
     {
         ikHandleNonCombat.transform.SetParent(_ikTransformNonCombat, false);
-        //ikHandleNonCombat.transform.position = Vector3.zero;
-        //ikHandleNonCombat.transform.rotation = Quaternion.identity;
         ikHandleCombat.transform.SetParent(_ikTransformCombat, false);
-        //ikHandleCombat.transform.position = Vector3.zero;
-        //ikHandleCombat.transform.rotation = Quaternion.identity;
     }
 
-    //private void Update()
-    //{
-    //    TestCheckColliderSizes();
-    //}
-
-    private void FixedUpdate()
+    private void Update()
     {
         transform.position = transform.parent.position;
         rb.centerOfMass = transform.parent.position - transform.position;
@@ -94,12 +93,15 @@ public class Weapon : MonoBehaviour, IHittable
         TestCheckColliderSizes();
 
         _movementBase = _base.transform.position - LastPosBase;
-        _movementTip = _tip.transform.position - MovementTip;
-
-        LastPosBase = _base.transform.position;
-        LastPosTip = _tip.transform.position;
+        _movementTip = _tip.transform.position - LastPosTip;
 
         _hitColliders = new();
+    }
+
+    private void FixedUpdate()
+    {
+        LastPosBase = _base.transform.position;
+        LastPosTip = _tip.transform.position;
     }
 
     private void TestCheckColliderSizes()
@@ -109,6 +111,8 @@ public class Weapon : MonoBehaviour, IHittable
             CheckColliderSize(i);
             _lastColliderPositionsByInterval[i] = _colliderByInterval[i].bounds.center;
         }
+
+
     }
 
     private void CheckColliderSize(int i)
@@ -256,5 +260,17 @@ public class Weapon : MonoBehaviour, IHittable
     public void Hit(Vector3 direction, Vector3 position, float strength)
     {
         //throw new System.NotImplementedException();
+    }
+
+    internal void StartAttack(AttackHitInfo hitInfo)
+    {
+        //_boxCollider.size = _baseBoxColliderSize *= hitInfo.ColliderScale;
+        //_capsuleCollider.radius = _baseCapsuleRadius *= hitInfo.ColliderScale;
+    }
+
+    internal void EndAttack()
+    {
+        //_boxCollider.size = _baseBoxColliderSize;
+        //_capsuleCollider.radius = _baseCapsuleRadius;
     }
 }

@@ -337,7 +337,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
   rb: {fileID: 908934513556500964}
-  _collider: {fileID: 6714423828882684023}
+  _boxCollider: {fileID: 6714423828882684023}
+  _capsuleCollider: {fileID: 2269737132416545625}
   _hitLayers:
     serializedVersion: 2
     m_Bits: 128
@@ -347,8 +348,9 @@ MonoBehaviour:
   _tipStrength: 0
   _hitBoxSize: {x: 0.06, y: 1.2, z: 0.06}
   _hitDivisions: 7
-  _ikTransformNonCombat: {fileID: 0}
-  _ikTransformCombat: {fileID: 0}
+  _ikTransformNonCombat: {fileID: 1648905208266371156}
+  _ikTransformCombat: {fileID: 5459030599735410371}
+  wepspeed: 0
   forceTest: 6000000
   forceTestSelf: 6000000
 --- !u!65 &6714423828882684023

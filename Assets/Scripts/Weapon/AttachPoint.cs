@@ -6,7 +6,7 @@ public class AttachPoint : MonoBehaviour
     [SerializeField]
     private Object _weaponPrefab;
 
-    private GameObject _weaponInstance;
+    public GameObject WeaponInstance { get; private set; }
 
     [SerializeField]
     private AttachPointInfo[] _attachPoints;
@@ -24,7 +24,7 @@ public class AttachPoint : MonoBehaviour
     void Awake()
     {
         _attachPointsByState = _attachPoints.AsDictionary();
-        _weaponInstance = CreateWeapon();
+        WeaponInstance = CreateWeapon();
         CurrentState = _initialState;
         AttachWeapon();
 
@@ -34,16 +34,17 @@ public class AttachPoint : MonoBehaviour
     [ContextMenu("Create Weapon")]
     private GameObject CreateWeapon()
     {
-        GameObject weapon = Instantiate(_weaponPrefab) as GameObject;
+        GameObject weaponGO = Instantiate(_weaponPrefab) as GameObject;
+        Weapon weapon = weaponGO.GetComponentInChildren<Weapon>();
 
-        weapon.GetComponentInChildren<Weapon>().Init(_ikHandleNonCombat, _ikHandleCombat);
+        weapon.Init(_ikHandleNonCombat, _ikHandleCombat);
 
-        return weapon;
+        return weaponGO;
     }
 
     private void AttachWeapon()
     {
-        _weaponInstance.transform.SetParent(_attachPointsByState[CurrentState].transform, false);
+        WeaponInstance.transform.SetParent(_attachPointsByState[CurrentState].transform, false);
     }
 
     private void SetState(CharacterStates state)

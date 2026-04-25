@@ -45,7 +45,7 @@ public class CombatController : MonoBehaviour
             case CharacterStates.NonCombat:
                 return true;
             case CharacterStates.Combat:
-                return _attackController._canAttack;
+                return _attackController.CanAttack;
             default:
                 throw new System.NotImplementedException();
         }
