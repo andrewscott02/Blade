@@ -7,6 +7,7 @@ public class AttachPoint : MonoBehaviour
     private Object _weaponPrefab;
 
     public GameObject WeaponInstance { get; private set; }
+    public Weapon WeaponScript { get; private set; }
 
     [SerializeField]
     private AttachPointInfo[] _attachPoints;
@@ -35,9 +36,9 @@ public class AttachPoint : MonoBehaviour
     private GameObject CreateWeapon()
     {
         GameObject weaponGO = Instantiate(_weaponPrefab) as GameObject;
-        Weapon weapon = weaponGO.GetComponentInChildren<Weapon>();
+        WeaponScript = weaponGO.GetComponentInChildren<Weapon>();
 
-        weapon.Init(_ikHandleNonCombat, _ikHandleCombat);
+        WeaponScript.Init(_ikHandleNonCombat, _ikHandleCombat);
 
         return weaponGO;
     }

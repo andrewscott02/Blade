@@ -13,8 +13,12 @@ public class AttackHitInfo : ScriptableObject
     public AttackTypes AttackType => _attackType;
 
     [SerializeField]
-    private float _colliderScale;
-    public float ColliderScale => _colliderScale;
+    private float _capsuleColliderScale;
+    public float CapsuleColliderScale => _capsuleColliderScale;
+
+    [SerializeField]
+    private Vector3 _boxColliderScale;
+    public Vector3 BoxColliderScale => _boxColliderScale;
 
 
 }

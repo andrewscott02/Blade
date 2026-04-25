@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: AltAttack
   m_EditorClassIdentifier: Assembly-CSharp::AttackHitInfo
   _attackType: 1
-  _colliderScale: 1.4
+  _capsuleColliderScale: 4
+  _boxColliderScale: {x: 4, y: 1.4, z: 4}

@@ -23,7 +23,7 @@ public class AttackController : MonoBehaviour
         _animator = animator;
         _guardController = guardController;
         _lockOn = GetComponent<LockOn>();
-        //_weapon = GetComponent<AttachPoint>().WeaponInstance;
+        _weapon = GetComponent<AttachPoint>().WeaponScript;
 
         _animator.SetFloat("AttackSpeed", _attackSpeed);
         _animator.SetBool("Telegraph", _telegraphAttacks);

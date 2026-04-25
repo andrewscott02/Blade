@@ -264,13 +264,13 @@ public class Weapon : MonoBehaviour, IHittable
 
     internal void StartAttack(AttackHitInfo hitInfo)
     {
-        //_boxCollider.size = _baseBoxColliderSize *= hitInfo.ColliderScale;
-        //_capsuleCollider.radius = _baseCapsuleRadius *= hitInfo.ColliderScale;
+        _boxCollider.size = VectorUtils.MultiplyVectors(_baseBoxColliderSize, hitInfo.BoxColliderScale);
+        _capsuleCollider.radius = _baseCapsuleRadius * hitInfo.CapsuleColliderScale;
     }
 
     internal void EndAttack()
     {
-        //_boxCollider.size = _baseBoxColliderSize;
-        //_capsuleCollider.radius = _baseCapsuleRadius;
+        _boxCollider.size = _baseBoxColliderSize;
+        _capsuleCollider.radius = _baseCapsuleRadius;
     }
 }
