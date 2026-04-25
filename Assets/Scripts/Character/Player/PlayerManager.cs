@@ -97,10 +97,10 @@ public class PlayerManager : CharacterManager
             switch (CurrentState)
             {
                 case CharacterStates.NonCombat:
-                    LockOn();
+                    TryLockOn();
                     break;
                 case CharacterStates.Combat:
-                    LockOff();
+                    TryLockOff();
                     break;
                 case CharacterStates.Dead:
                     break;
@@ -110,28 +110,55 @@ public class PlayerManager : CharacterManager
         }
     }
 
-    private void LockOn()
+    private void TryLockOn()
     {
         if (_lockOn.TryGetLockOnTarget(out LockOnTarget target))
         {
-            CurrentState = CharacterStates.Combat;
+            if (_combat.CanSwitchAnimationState(CurrentState))
+            {
+                LockOn();
+            }
+            else
+            {
+                _combat.AnimatorEventsListener.ResetChangeGuardDelegateNoInfo += LockOn;
+            }
 
-            _playerMovement.SetSprinting(false);
-            _lockOn.SetTarget(target);
-            _combat.SetAnimationState(CurrentState);
+            void LockOn()
+            {
+                _combat.AnimatorEventsListener.ResetChangeGuardDelegateNoInfo -= LockOn;
+                CurrentState = CharacterStates.Combat;
 
-            _combatCam.Prioritize();
+                _playerMovement.SetSprinting(false);
+                _lockOn.SetTarget(target);
+                _combat.SetAnimationState(CurrentState);
+
+                _combatCam.Prioritize();
+            }
         }
     }
 
-    private void LockOff()
+    private void TryLockOff()
     {
-        CurrentState = CharacterStates.NonCombat;
+        if (_combat.CanSwitchAnimationState(CurrentState))
+        {
+            LockOff();
+        }
+        else
+        {
+            _combat.AnimatorEventsListener.ResetChangeGuardDelegateNoInfo += LockOff;
+        }
 
-        _lockOn.UnlockTarget();
-        _combat.SetAnimationState(CurrentState);
+        void LockOff()
+        {
+            _combat.AnimatorEventsListener.ResetChangeGuardDelegateNoInfo -= LockOff;
 
-        _nonCombatCam.Prioritize();
+            CurrentState = CharacterStates.NonCombat;
+
+            _lockOn.UnlockTarget();
+            _combat.SetAnimationState(CurrentState);
+
+            _nonCombatCam.Prioritize();
+        }
     }
 
     private void RotateCameraToTarget()

@@ -8,6 +8,7 @@ public class CombatController : MonoBehaviour
     private Animator _animator;
     [SerializeField]
     private CharacterAnimatorEventsListener _animatorEvents;
+    public CharacterAnimatorEventsListener AnimatorEventsListener => _animatorEvents;
     [SerializeField]
     private float _attackSpeed = 1;
     [SerializeField]
@@ -41,6 +42,19 @@ public class CombatController : MonoBehaviour
     internal void SetGuard(Vector2 input)
     {
         _guardController.SetGuard(input);
+    }
+
+    internal bool CanSwitchAnimationState(CharacterStates previousState)
+    {
+        switch (previousState)
+        {
+            case CharacterStates.NonCombat:
+                return true;
+            case CharacterStates.Combat:
+                return _canAttack;
+            default:
+                throw new System.NotImplementedException();
+        }
     }
 
     internal void SetAnimationState(CharacterStates state)
