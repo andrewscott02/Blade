@@ -26,7 +26,7 @@ public static class GameUtils
 
     public static bool TryInvoke(this CharacterAnimatorEventDelegate callFunc)
     {
-        if (callFunc.GetInvocationList().Length > 0)
+        if (callFunc?.GetInvocationList()?.Length > 0)
         {
             callFunc.Invoke();
             return true;
@@ -37,7 +37,17 @@ public static class GameUtils
 
     public static bool TryInvoke(this GuardInfoEventDelegate callFunc, AttackGuardChangeInfo changeInfo)
     {
-        if (callFunc.GetInvocationList().Length > 0)
+        if (callFunc?.GetInvocationList()?.Length > 0)
+        {
+            callFunc.Invoke(changeInfo);
+            return true;
+        }
+        return false;
+    }
+
+    public static bool TryInvoke(this HitInfoEventDelegate callFunc, AttackHitInfo changeInfo)
+    {
+        if (callFunc?.GetInvocationList()?.Length > 0)
         {
             callFunc.Invoke(changeInfo);
             return true;

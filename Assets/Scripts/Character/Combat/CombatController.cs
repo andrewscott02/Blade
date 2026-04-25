@@ -9,34 +9,28 @@ public class CombatController : MonoBehaviour
     [SerializeField]
     private CharacterAnimatorEventsListener _animatorEvents;
     public CharacterAnimatorEventsListener AnimatorEventsListener => _animatorEvents;
-    [SerializeField]
-    private float _attackSpeed = 1;
-    [SerializeField]
-    private bool _telegraphAttacks = true;
-
-    private bool _canAttack;
 
     private const string _upperBodyLayerName = "UpperBody";
     private int _upperBodyLayerIndex;
 
     private GuardDirectionController _guardController;
+    private AttackController _attackController;
 
     private List<AttackGuardChangeInfo> changeInfoQueue;
 
     private void Start()
     {
         _upperBodyLayerIndex = _animator.GetLayerIndex(_upperBodyLayerName);
-        _canAttack = true;
 
         SetAnimationState(CharacterStates.NonCombat);
 
         _animatorEvents.ResetChangeGuardDelegate += RequestResetCanChangeGuard;
-        _animatorEvents.ResetAttackDelegate += ResetCanAttack;
 
         _guardController = GetComponent<GuardDirectionController>();
         _guardController.Init(_animator);
-        _animator.SetFloat("AttackSpeed", _attackSpeed);
-        _animator.SetBool("Telegraph", _telegraphAttacks);
+
+        _attackController = GetComponent<AttackController>();
+        _attackController.Init(_animator, _animatorEvents, _guardController);
     }
 
     internal void SetGuard(Vector2 input)
@@ -51,7 +45,7 @@ public class CombatController : MonoBehaviour
             case CharacterStates.NonCombat:
                 return true;
             case CharacterStates.Combat:
-                return _canAttack;
+                return _attackController._canAttack;
             default:
                 throw new System.NotImplementedException();
         }
@@ -72,26 +66,9 @@ public class CombatController : MonoBehaviour
         }
     }
 
-    internal void Attack(AttackTypes attackType, float animSpeed = 1f)
+    internal void Attack(AttackTypes attackType)
     {
-        //TODO: Maybe queue up a combo attack when it's available?
-        if (!_canAttack)
-            return;
-
-        AnimateAttackDirection(0);
-        _guardController.StopResetGuardCoroutine();
-        _guardController.StopResetGuardToBaseCoroutine();
-        _guardController.SetCanChangeGuard(false);
-        _guardController.SetCanResetGuard(false);
-        _canAttack = false;
-
-        _animator.SetTrigger($"Attack-{attackType}");
-    }
-
-    internal void AnimateAttackDirection(float dampen)
-    {
-        _animator.SetFloat("AttackX", _guardController.GuardDirection.x, dampen, Time.deltaTime);
-        _animator.SetFloat("AttackY", _guardController.GuardDirection.y, dampen, Time.deltaTime);
+        _attackController.Attack(attackType);
     }
 
     private void RequestResetCanChangeGuard(AttackGuardChangeInfo changeInfo)
@@ -129,10 +106,5 @@ public class CombatController : MonoBehaviour
         }
 
         return highestPriorityItem;
-    }
-
-    private void ResetCanAttack()
-    {
-        _canAttack = true;
     }
 }

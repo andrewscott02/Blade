@@ -35,6 +35,6 @@ public class TargetController : CharacterManager
 
     private void Attack()
     {
-        _combat.Attack(AttackTypes.Default, animSpeed: 0.75f);
+        _combat.Attack(AttackTypes.Default);
     }
 }

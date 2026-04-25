@@ -142,6 +142,7 @@ GameObject:
   - component: {fileID: 2713288630017502178}
   - component: {fileID: 4756999018999937706}
   - component: {fileID: 2802540725504111388}
+  - component: {fileID: 2606218544591294941}
   m_Layer: 0
   m_Name: CombatComponent
   m_TagString: Untagged
@@ -178,8 +179,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
   _animator: {fileID: 5383466961676929203}
   _animatorEvents: {fileID: 4800786654139546643}
-  _attackSpeed: 0.7
-  _telegraphAttacks: 1
 --- !u!114 &2082828887014490604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,6 +242,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 690bdceb7485f76408ab95b458b39f72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LockOnTarget
+--- !u!114 &2606218544591294941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2353046908670478269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7d735bf7bae8dc4f8543887f6510396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackController
+  _attackSpeed: 0.5
+  _telegraphAttacks: 1
 --- !u!1 &2409149435430643159
 GameObject:
   m_ObjectHideFlags: 0

@@ -206,6 +206,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2606218544591294941, guid: e56c45f5ee0a57447bfb377517683fb6, type: 3}
+      propertyPath: _attackSpeed
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2606218544591294941, guid: e56c45f5ee0a57447bfb377517683fb6, type: 3}
+      propertyPath: _telegraphAttacks
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5916959370203844660, guid: e56c45f5ee0a57447bfb377517683fb6, type: 3}
       propertyPath: _telegraphAttacks
       value: 0
