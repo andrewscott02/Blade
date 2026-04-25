@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
 public class IKControl : MonoBehaviour
 {
     private Animator animator;
@@ -19,7 +18,11 @@ public class IKControl : MonoBehaviour
     {
         animator = GetComponent<Animator>();
 
-        GetComponentInParent<CharacterManager>().CharacterStateChange += SetCurrentState;
+        CharacterManager character = GetComponentInParent<CharacterManager>();
+        if (character != null)
+        {
+            character.CharacterStateChange += SetCurrentState;
+        }
     }
 
     internal void SetActive(bool active)

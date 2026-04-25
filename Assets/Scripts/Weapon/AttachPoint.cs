@@ -16,6 +16,11 @@ public class AttachPoint : MonoBehaviour
     private CharacterStates _initialState;
     public CharacterStates CurrentState { get; private set; }
 
+    [SerializeField]
+    private GameObject _ikHandleNonCombat;
+    [SerializeField]
+    private GameObject _ikHandleCombat;
+
     void Awake()
     {
         _attachPointsByState = _attachPoints.AsDictionary();
@@ -28,7 +33,13 @@ public class AttachPoint : MonoBehaviour
 
     [ContextMenu("Create Weapon")]
     private GameObject CreateWeapon()
-        => Instantiate(_weaponPrefab) as GameObject;
+    {
+        GameObject weapon = Instantiate(_weaponPrefab) as GameObject;
+
+        weapon.GetComponentInChildren<Weapon>().Init(_ikHandleNonCombat, _ikHandleCombat);
+
+        return weapon;
+    }
 
     private void AttachWeapon()
     {

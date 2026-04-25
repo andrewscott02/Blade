@@ -42,6 +42,11 @@ public class Weapon : MonoBehaviour, IHittable
 
     private List<Collider> _hitColliders = new();
 
+    [SerializeField]
+    private Transform _ikTransformNonCombat;
+    [SerializeField]
+    private Transform _ikTransformCombat;
+
     private void Start()
     {
         _baseColliderSize = _collider.size;
@@ -64,6 +69,16 @@ public class Weapon : MonoBehaviour, IHittable
             _colliderByInterval.Add(i, col);
             _lastColliderPositionsByInterval.Add(i, col.center);
         }
+    }
+
+    internal void Init(GameObject ikHandleNonCombat, GameObject ikHandleCombat)
+    {
+        ikHandleNonCombat.transform.SetParent(_ikTransformNonCombat, false);
+        //ikHandleNonCombat.transform.position = Vector3.zero;
+        //ikHandleNonCombat.transform.rotation = Quaternion.identity;
+        ikHandleCombat.transform.SetParent(_ikTransformCombat, false);
+        //ikHandleCombat.transform.position = Vector3.zero;
+        //ikHandleCombat.transform.rotation = Quaternion.identity;
     }
 
     //private void Update()
