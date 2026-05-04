@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -99,5 +100,10 @@ public class LockOn : MonoBehaviour
     internal void UnlockTarget()
     {
         _animController.SetBool("Combat", false);
+    }
+
+    internal void Attacking(AttackController attackController, Vector2 attackDirection)
+    {
+        CurrentTarget.BeingAttacked(attackController, attackDirection);
     }
 }

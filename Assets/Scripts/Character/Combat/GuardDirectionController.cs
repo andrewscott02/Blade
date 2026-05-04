@@ -4,6 +4,7 @@ using UnityEngine;
 public class GuardDirectionController : MonoBehaviour
 {
     private Animator _animator;
+    private LockOnTarget _lockOnTarget;
 
     [SerializeField]
     private float _minGuardChangeThreshold = 0.25f;
@@ -22,12 +23,16 @@ public class GuardDirectionController : MonoBehaviour
     internal void Init(Animator animator)
     {
         _animator = animator;
+        _lockOnTarget = GetComponent<LockOnTarget>();
+        _lockOnTarget.beingAttacked += BeingAttacked;
 
         _resetGuardCoroutineRunning = false;
         _resetGuardToBaseCoroutineRunning = false;
         _canResetBaseGuard = true;
         _canChangeGuard = true;
     }
+
+    #region Changing Guard Direction
 
     internal void SetCanChangeGuard(bool canReset)
     {
@@ -62,10 +67,10 @@ public class GuardDirectionController : MonoBehaviour
             return input;
         }
 
-        return ResetGuardPos();
+        return GetResetGuardPos();
     }
 
-    private Vector2 ResetGuardPos()
+    private Vector2 GetResetGuardPos()
         => _canResetBaseGuard
         ? Vector2.zero
         : _guardDirection;
@@ -89,6 +94,8 @@ public class GuardDirectionController : MonoBehaviour
             GuardSwitchType.OppositeDirection => -_guardDirection.normalized,
             _ => throw new System.NotImplementedException()
         };
+
+    #endregion
 
     #region Reset Can Change Guard
 
@@ -142,4 +149,9 @@ public class GuardDirectionController : MonoBehaviour
     }
 
     #endregion
+
+    private void BeingAttacked(AttackController attackerController, Vector2 attackDir)
+    {
+
+    }
 }

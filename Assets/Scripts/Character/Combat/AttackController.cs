@@ -59,7 +59,7 @@ public class AttackController : MonoBehaviour
 
     private void StartAttackLogic(AttackHitInfo hitInfo)
     {
-        //_lockOn.BeingAttacked(this);
+        _lockOn.Attacking(this, _attackDirection);
 
         _weapon.StartAttack(hitInfo);
     }
