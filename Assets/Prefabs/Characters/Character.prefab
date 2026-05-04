@@ -193,6 +193,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GuardDirectionController
   _minGuardChangeThreshold: 0.05
+  _defendAngleThreshold: 30
+  _defendMagnitudeThreshold: 0.5
   _animDampenGuard: 0.125
 --- !u!114 &2713288630017502178
 MonoBehaviour:

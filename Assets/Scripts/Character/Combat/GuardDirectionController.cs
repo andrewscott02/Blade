@@ -12,6 +12,14 @@ public class GuardDirectionController : MonoBehaviour
     private Vector2 _guardDirection = Vector2.down;
     internal Vector2 GuardDirection => _guardDirection;
 
+    [SerializeField]
+    private float _defendAngleThreshold = 20;
+    [SerializeField]
+    private float _defendMagnitudeThreshold = 0.5f;
+
+    private Vector2 _defendDirection = Vector2.down;
+    internal Vector2 DefendDirection => _defendDirection;
+
     private bool _resetGuardCoroutineRunning;
     private bool _resetGuardToBaseCoroutineRunning;
     private bool _canResetBaseGuard;
@@ -25,6 +33,7 @@ public class GuardDirectionController : MonoBehaviour
         _animator = animator;
         _lockOnTarget = GetComponent<LockOnTarget>();
         _lockOnTarget.beingAttacked += BeingAttacked;
+        _lockOnTarget.stopBeingAttacked += StopBeingAttacked;
 
         _resetGuardCoroutineRunning = false;
         _resetGuardToBaseCoroutineRunning = false;
@@ -152,6 +161,20 @@ public class GuardDirectionController : MonoBehaviour
 
     private void BeingAttacked(AttackController attackerController, Vector2 attackDir)
     {
+        _defendDirection = attackDir;
 
+        float angle = Mathf.Abs(Vector2.Angle(_guardDirection, attackDir));
+
+        if (angle <= _defendAngleThreshold && _guardDirection.magnitude > _defendMagnitudeThreshold)
+        {
+            _animator.SetBool("Defending", true);
+            _animator.SetFloat("DefendX", attackDir.x, 0, Time.deltaTime);
+            _animator.SetFloat("DefendY", attackDir.y, 0, Time.deltaTime);
+        }
+    }
+
+    private void StopBeingAttacked()
+    {
+        _animator.SetBool("Defending", false);
     }
 }

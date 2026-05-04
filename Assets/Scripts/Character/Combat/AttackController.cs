@@ -60,13 +60,14 @@ public class AttackController : MonoBehaviour
     private void StartAttackLogic(AttackHitInfo hitInfo)
     {
         _lockOn.Attacking(this, _attackDirection);
-
         _weapon.StartAttack(hitInfo);
     }
 
     private void ResetCanAttack()
     {
         CanAttack = true;
+
+        _lockOn.StopAttacking();
         _weapon.EndAttack();
     }
 }

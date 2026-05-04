@@ -104,6 +104,12 @@ public class LockOn : MonoBehaviour
 
     internal void Attacking(AttackController attackController, Vector2 attackDirection)
     {
+        Debug.Log("Attacking " + attackDirection);
         CurrentTarget.BeingAttacked(attackController, attackDirection);
+    }
+
+    internal void StopAttacking()
+    {
+        CurrentTarget.StopBeingAttacked();
     }
 }
