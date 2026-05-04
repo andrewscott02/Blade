@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -89,7 +88,7 @@ public class Weapon : MonoBehaviour, IHittable
     {
         transform.position = transform.parent.position;
         rb.centerOfMass = transform.parent.position - transform.position;
-        CheckAllCollisions();
+        //CheckAllCollisions();
         TestCheckColliderSizes();
 
         _movementBase = _base.transform.position - LastPosBase;
@@ -100,8 +99,8 @@ public class Weapon : MonoBehaviour, IHittable
 
     private void FixedUpdate()
     {
-        LastPosBase = _base.transform.position;
-        LastPosTip = _tip.transform.position;
+        //LastPosBase = _base.transform.position;
+        //LastPosTip = _tip.transform.position;
     }
 
     private void TestCheckColliderSizes()

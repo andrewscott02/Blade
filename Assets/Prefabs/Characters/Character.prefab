@@ -144,6 +144,7 @@ GameObject:
   - component: {fileID: 4756999018999937706}
   - component: {fileID: 2802540725504111388}
   - component: {fileID: 2606218544591294941}
+  - component: {fileID: 8497143012759060489}
   m_Layer: 0
   m_Name: CombatComponent
   m_TagString: Untagged
@@ -193,8 +194,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GuardDirectionController
   _minGuardChangeThreshold: 0.05
-  _defendAngleThreshold: 30
-  _defendMagnitudeThreshold: 0.5
   _animDampenGuard: 0.125
 --- !u!114 &2713288630017502178
 MonoBehaviour:
@@ -261,6 +260,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AttackController
   _attackSpeed: 0.5
   _telegraphAttacks: 1
+--- !u!114 &8497143012759060489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2353046908670478269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b7efcc3a4403ff46ba87ffe9199f494, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DefenceController
+  _defendAngleThreshold: 20
+  _defendMagnitudeThreshold: 0.5
 --- !u!1 &2409149435430643159
 GameObject:
   m_ObjectHideFlags: 0

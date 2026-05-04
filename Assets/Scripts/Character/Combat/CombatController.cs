@@ -15,6 +15,7 @@ public class CombatController : MonoBehaviour
 
     private GuardDirectionController _guardController;
     private AttackController _attackController;
+    private DefenceController _defenceController;
 
     private List<AttackGuardChangeInfo> changeInfoQueue;
 
@@ -28,6 +29,9 @@ public class CombatController : MonoBehaviour
 
         _guardController = GetComponent<GuardDirectionController>();
         _guardController.Init(_animator);
+
+        _defenceController = GetComponent<DefenceController>();
+        _defenceController.Init(_animator);
 
         _attackController = GetComponent<AttackController>();
         _attackController.Init(_animator, _animatorEvents, _guardController);
